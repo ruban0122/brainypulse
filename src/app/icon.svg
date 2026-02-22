@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="pulse" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+
+  <!-- Brain left hemisphere -->
+  <path d="M32 9
+    C25 9 19 13 17 19
+    C14 20 11 23 11 28
+    C11 33 14 37 18 39
+    C18 44 21 48 26 49
+    L32 49
+    Z"
+    fill="white" opacity="0.9"/>
+
+  <!-- Brain right hemisphere -->
+  <path d="M32 9
+    C39 9 45 13 47 19
+    C50 20 53 23 53 28
+    C53 33 50 37 46 39
+    C46 44 43 48 38 49
+    L32 49
+    Z"
+    fill="white" opacity="0.75"/>
+
+  <!-- Center divider -->
+  <line x1="32" y1="11" x2="32" y2="48"
+    stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="3,2.5" opacity="0.5"/>
+
+  <!-- Left fold lines -->
+  <path d="M17 26 Q21 23 26 26" stroke="#6366f1" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.45"/>
+  <path d="M15 34 Q20 31 25 34" stroke="#6366f1" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.45"/>
+  <path d="M18 42 Q22 39 26 41" stroke="#6366f1" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.45"/>
+
+  <!-- Right fold lines -->
+  <path d="M47 26 Q43 23 38 26" stroke="#6366f1" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.45"/>
+  <path d="M49 34 Q44 31 39 34" stroke="#6366f1" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.45"/>
+  <path d="M46 42 Q42 39 38 41" stroke="#6366f1" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.45"/>
+
+  <!-- ECG Pulse line -->
+  <path d="M5 32 L16 32 L20 32 L23 22 L27 44 L30 24 L32 32 L42 32 L59 32"
+    stroke="url(#pulse)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Pulse peaks glow dots -->
+  <circle cx="23" cy="22" r="2.2" fill="#22d3ee"/>
+  <circle cx="30" cy="24" r="2.2" fill="#22d3ee"/>
+</svg>
