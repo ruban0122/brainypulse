@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="50%" stop-color="#312e81"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <linearGradient id="brain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="1050" cy="100" r="200" fill="#6366f1" opacity="0.08"/>
+  <circle cx="150" cy="530" r="160" fill="#8b5cf6" opacity="0.08"/>
+  <circle cx="600" cy="315" r="400" fill="#4338ca" opacity="0.05"/>
+
+  <!-- Grid dots pattern -->
+  <g opacity="0.12">
+    <g fill="#a5b4fc">
+      <!-- Dot grid -->
+      <circle cx="100" cy="80" r="2"/><circle cx="200" cy="80" r="2"/><circle cx="300" cy="80" r="2"/>
+      <circle cx="100" cy="160" r="2"/><circle cx="200" cy="160" r="2"/><circle cx="300" cy="160" r="2"/>
+      <circle cx="900" cy="450" r="2"/><circle cx="1000" cy="450" r="2"/><circle cx="1100" cy="450" r="2"/>
+      <circle cx="900" cy="530" r="2"/><circle cx="1000" cy="530" r="2"/><circle cx="1100" cy="530" r="2"/>
+    </g>
+  </g>
+
+  <!-- Logo area -->
+  <!-- Brain icon simplified -->
+  <g transform="translate(80, 225)">
+    <path d="M60 20 C45 20 30 32 30 46 C27 49 24 54 24 60 C24 68 28 75 35 78 C35 85 38 92 44 95 C47 95 50 93 52 91 L52 20Z"
+          fill="url(#brain)" opacity="0.95"/>
+    <path d="M60 20 C75 20 90 32 90 46 C93 49 96 54 96 60 C96 68 92 75 85 78 C85 85 82 92 76 95 C73 95 70 93 68 91 L68 20Z"
+          fill="url(#brain)" opacity="0.8"/>
+    <path d="M30 57 L42 57 L46 43 L50 71 L54 46 L58 62 L60 57 L72 57 L90 57"
+          stroke="#22d3ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#glow)"/>
+  </g>
+
+  <!-- BrainyPulse wordmark -->
+  <text x="190" y="288" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="900" fill="#e0e7ff" letter-spacing="-2">Brainy</text>
+  <text x="508" y="288" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="900" fill="#22d3ee" letter-spacing="-2">Pulse</text>
+
+  <!-- Tagline -->
+  <text x="190" y="326" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="500" fill="#a5b4fc" letter-spacing="2">FREE MATHS GAMES · QUIZZES · WORKSHEETS FOR KIDS</text>
+
+  <!-- Divider line -->
+  <rect x="80" y="360" width="1040" height="2" fill="#4338ca" opacity="0.5"/>
+
+  <!-- Feature pills -->
+  <g transform="translate(80, 395)">
+    <!-- Pill 1 -->
+    <rect x="0" y="0" width="200" height="56" rx="28" fill="url(#pill)" opacity="0.9"/>
+    <text x="100" y="24" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="white" text-anchor="middle">🎮 Play Free</text>
+    <text x="100" y="44" font-family="system-ui, sans-serif" font-size="13" fill="#c7d2fe" text-anchor="middle">Maths Games</text>
+
+    <!-- Pill 2 -->
+    <rect x="220" y="0" width="200" height="56" rx="28" fill="#0e7490" opacity="0.9"/>
+    <text x="320" y="24" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="white" text-anchor="middle">📅 Daily Quiz</text>
+    <text x="320" y="44" font-family="system-ui, sans-serif" font-size="13" fill="#a5f3fc" text-anchor="middle">New Every Day</text>
+
+    <!-- Pill 3 -->
+    <rect x="440" y="0" width="220" height="56" rx="28" fill="#065f46" opacity="0.9"/>
+    <text x="550" y="24" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="white" text-anchor="middle">📄 Worksheets</text>
+    <text x="550" y="44" font-family="system-ui, sans-serif" font-size="13" fill="#a7f3d0" text-anchor="middle">34 Free Topics</text>
+
+    <!-- Pill 4 -->
+    <rect x="680" y="0" width="200" height="56" rx="28" fill="#7c2d12" opacity="0.9"/>
+    <text x="780" y="24" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="white" text-anchor="middle">🏅 Achievements</text>
+    <text x="780" y="44" font-family="system-ui, sans-serif" font-size="13" fill="#fcd9bd" text-anchor="middle">Earn Badges</text>
+  </g>
+
+  <!-- Domain -->
+  <text x="600" y="600" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#6366f1" text-anchor="middle" opacity="0.8">brainypulse.com</text>
+
+  <!-- Age badge -->
+  <rect x="980" y="220" width="160" height="60" rx="16" fill="#fbbf24" opacity="0.95"/>
+  <text x="1060" y="247" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#1e1b4b" text-anchor="middle">Ages 5–12</text>
+  <text x="1060" y="267" font-family="system-ui, sans-serif" font-size="12" fill="#451a03" text-anchor="middle">100% Free Forever</text>
+</svg>
