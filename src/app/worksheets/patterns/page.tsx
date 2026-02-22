@@ -27,7 +27,7 @@ export default function PatternsWorksheet() {
 
     const generateProblems = () => {
         const count = 8; // Patterns take space, 8 rows is good
-        const newProblems = [];
+        const newProblems: { sequence: string[], answer: string }[] = [];
 
         for (let i = 0; i < count; i++) {
             const theme = themes[Math.floor(Math.random() * themes.length)];
@@ -40,8 +40,8 @@ export default function PatternsWorksheet() {
             if (difficulty === 'medium') patternType = ['AAB', 'ABB', 'ABC'][Math.floor(Math.random() * 3)];
             if (difficulty === 'hard') patternType = ['ABCD', 'AABB', 'ABAC'][Math.floor(Math.random() * 3)];
 
-            let sequence = [];
-            let fullPattern = [];
+            let sequence: string[] = [];
+            let fullPattern: string[] = [];
 
             // Construct base pattern unit
             if (patternType === 'AB') fullPattern = [A, B];
