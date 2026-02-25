@@ -1,221 +1,188 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import { ALL_ACHIEVEMENTS, useAchievements } from '../practice/hooks/useAchievements';
+import { ALL_ACHIEVEMENTS, Achievement, useAchievements } from '../practice/hooks/useAchievements';
 
-const CATEGORY_LABELS: Record<string, { label: string; emoji: string; color: string }> = {
-    quiz: { label: 'Quiz Champion', emoji: '🎯', color: 'text-blue-600 bg-blue-50' },
-    streak: { label: 'Streak Builder', emoji: '🔥', color: 'text-orange-600 bg-orange-50' },
-    daily: { label: 'Daily Devotion', emoji: '📅', color: 'text-green-600 bg-green-50' },
-    special: { label: 'Special Modes', emoji: '⭐', color: 'text-purple-600 bg-purple-50' },
-    explorer: { label: 'Explorer', emoji: '🗺️', color: 'text-teal-600 bg-teal-50' },
+const CATEGORY_LABELS: Record<string, string> = {
+    quiz: '🎯 Quiz Mastery',
+    streak: '🔥 Streaks',
+    daily: '📅 Daily Devotion',
+    explorer: '🌍 Explorer',
+    special: '✨ Special',
 };
 
 export default function AchievementsPage() {
-    const { getUnlocked, getTotalXP, getProgress } = useAchievements();
+    const { getUnlocked } = useAchievements();
     const [unlocked, setUnlocked] = useState<string[]>([]);
+    const [selected, setSelected] = useState<string | null>(null);
     const [filter, setFilter] = useState<string>('all');
-    const [justUnlocked, setJustUnlocked] = useState<string | null>(null);
 
     useEffect(() => {
         setUnlocked(getUnlocked());
-    }, [getUnlocked]);
+    }, []);
 
-    // Listen for new achievements
-    useEffect(() => {
-        const handler = (e: Event) => {
-            const id = (e as CustomEvent).detail?.id;
-            setUnlocked(getUnlocked());
-            if (id) {
-                setJustUnlocked(id);
-                setTimeout(() => setJustUnlocked(null), 3000);
-            }
-        };
-        window.addEventListener('mw:achievement', handler);
-        return () => window.removeEventListener('mw:achievement', handler);
-    }, [getUnlocked]);
-
-    const totalXP = getTotalXP();
-    const progress = getProgress();
-    const totalCount = ALL_ACHIEVEMENTS.length;
-    const unlockedCount = unlocked.length;
-    const level = Math.floor(totalXP / 200) + 1;
-    const xpToNextLevel = 200 - (totalXP % 200);
-
-    const categories = ['all', ...Object.keys(CATEGORY_LABELS)];
-
-    const filtered = filter === 'all'
+    const categories: string[] = ['all', ...Array.from(new Set(ALL_ACHIEVEMENTS.map((a: Achievement) => a.category)))];
+    const filtered: Achievement[] = filter === 'all'
         ? ALL_ACHIEVEMENTS
-        : ALL_ACHIEVEMENTS.filter(a => a.category === filter);
+        : ALL_ACHIEVEMENTS.filter((a: Achievement) => a.category === filter);
+
+    const unlockedCount = unlocked.length;
+    const totalXP = ALL_ACHIEVEMENTS
+        .filter((a: Achievement) => unlocked.includes(a.id))
+        .reduce((s: number, a: Achievement) => s + a.xp, 0);
+    const pct = Math.round((unlockedCount / ALL_ACHIEVEMENTS.length) * 100);
 
     return (
-        <>
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 font-sans">
             <Navbar />
-            <main className="min-h-screen bg-gray-50 pt-16">
-                <style>{`
-          @keyframes badge-appear {
-            0% { transform:scale(0) rotate(-15deg); opacity:0; }
-            70% { transform:scale(1.2) rotate(5deg); }
-            100% { transform:scale(1) rotate(0); opacity:1; }
-          }
-          .badge-appear { animation: badge-appear 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-          @keyframes just-unlocked {
-            0%,100% { box-shadow:0 0 0 0 rgba(99,102,241,0); }
-            50% { box-shadow:0 0 0 12px rgba(99,102,241,0.15); }
-          }
-          .just-unlocked { animation: just-unlocked 1.5s ease infinite; }
-        `}</style>
+            <style>{`
+                @keyframes badge-in {
+                    from { transform: scale(0.5) rotate(-15deg); opacity: 0; }
+                    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+                }
+                @keyframes shimmer {
+                    0%   { background-position: -200% center; }
+                    100% { background-position: 200% center; }
+                }
+                @keyframes float-up {
+                    from { transform: translateY(12px); opacity: 0; }
+                    to   { transform: translateY(0); opacity: 1; }
+                }
+                .badge-in  { animation: badge-in 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+                .float-up  { animation: float-up 0.5s ease-out forwards; }
+            `}</style>
 
-                {/* Hero / Stats Bar */}
-                <section className="bg-gradient-to-br from-indigo-800 via-purple-800 to-slate-900 text-white py-14 px-4">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <div className="text-5xl mb-3">🏅</div>
-                        <h1 className="text-4xl font-black mb-2">Your Achievements</h1>
-                        <p className="text-indigo-200 mb-8">Every quiz, every streak, every challenge — tracked and celebrated.</p>
+            <div className="max-w-5xl mx-auto px-4 pt-24 pb-16">
 
-                        {/* Stats row */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-                            {[
-                                { label: 'Badges Earned', value: `${unlockedCount}/${totalCount}`, icon: '🏅' },
-                                { label: 'Total XP', value: totalXP.toLocaleString(), icon: '⚡' },
-                                { label: 'Wizard Level', value: `Lv. ${level}`, icon: '🧙‍♂️' },
-                                { label: 'Completion', value: `${progress}%`, icon: '📊' },
-                            ].map(s => (
-                                <div key={s.label} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4">
-                                    <div className="text-2xl mb-1">{s.icon}</div>
-                                    <div className="text-2xl font-black">{s.value}</div>
-                                    <div className="text-indigo-300 text-xs">{s.label}</div>
-                                </div>
-                            ))}
-                        </div>
+                {/* ─── Header ──────────────────────────────────── */}
+                <div className="text-center mb-8">
+                    <Link href="/practice" className="inline-flex items-center gap-2 text-indigo-400 hover:text-white text-sm mb-6 transition-colors">
+                        ← Back to Practice
+                    </Link>
+                    <h1 className="text-5xl font-black text-white mb-2">🏅 Achievements</h1>
+                    <p className="text-indigo-300 text-base">
+                        Collect them all. Each badge proves your skills!
+                    </p>
+                </div>
 
-                        {/* Level progress bar */}
-                        <div className="mt-6 max-w-sm mx-auto">
-                            <div className="flex justify-between text-xs text-indigo-300 mb-1">
-                                <span>Level {level}</span>
-                                <span>{xpToNextLevel} XP to Level {level + 1}</span>
-                            </div>
-                            <div className="h-2.5 bg-white/20 rounded-full overflow-hidden">
-                                <div
-                                    className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full transition-all duration-1000"
-                                    style={{ width: `${((200 - xpToNextLevel) / 200) * 100}%` }}
-                                />
-                            </div>
-                        </div>
+                {/* ─── Summary ─────────────────────────────────── */}
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                        <div className="text-3xl font-black text-white">{unlockedCount}<span className="text-white/30 text-xl">/{ALL_ACHIEVEMENTS.length}</span></div>
+                        <div className="text-white/50 text-xs mt-1">Badges Unlocked</div>
                     </div>
-                </section>
-
-                <div className="max-w-5xl mx-auto px-4 py-10">
-
-                    {/* Category filter */}
-                    <div className="flex flex-wrap gap-2 mb-8">
-                        {categories.map(cat => (
-                            <button
-                                key={cat}
-                                id={`filter-${cat}`}
-                                onClick={() => setFilter(cat)}
-                                className={`px-4 py-2 rounded-xl font-bold text-sm border-2 transition-all ${filter === cat
-                                        ? 'border-indigo-600 bg-indigo-600 text-white'
-                                        : 'border-gray-200 text-gray-600 bg-white hover:border-indigo-300'
-                                    }`}
-                            >
-                                {cat === 'all' ? '🔍 All Badges' : `${CATEGORY_LABELS[cat].emoji} ${CATEGORY_LABELS[cat].label}`}
-                                <span className="ml-2 text-xs opacity-70">
-                                    ({cat === 'all'
-                                        ? `${unlockedCount}/${totalCount}`
-                                        : `${unlocked.filter(u => ALL_ACHIEVEMENTS.find(a => a.id === u)?.category === cat).length}/${ALL_ACHIEVEMENTS.filter(a => a.category === cat).length}`
-                                    })
-                                </span>
-                            </button>
-                        ))}
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                        <div className="text-3xl font-black text-yellow-400">{totalXP.toLocaleString()}</div>
+                        <div className="text-white/50 text-xs mt-1">XP Earned</div>
                     </div>
-
-                    {/* Achievement grid */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-12">
-                        {filtered.map(achievement => {
-                            const earned = unlocked.includes(achievement.id);
-                            const isNew = justUnlocked === achievement.id;
-
-                            return (
-                                <div
-                                    key={achievement.id}
-                                    id={`badge-${achievement.id}`}
-                                    className={`relative bg-white rounded-2xl p-5 border-2 transition-all duration-300 flex flex-col items-center text-center
-                    ${earned
-                                            ? `border-transparent shadow-md ${isNew ? 'just-unlocked' : 'hover:shadow-lg hover:-translate-y-1'}`
-                                            : 'border-gray-100 opacity-60 grayscale hover:opacity-75'
-                                        }`}
-                                >
-                                    {earned && (
-                                        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${achievement.color} opacity-10`} />
-                                    )}
-
-                                    {/* Emoji badge */}
-                                    <div className={`text-5xl mb-3 transition-transform ${earned ? 'badge-appear' : ''}`}>
-                                        {(!earned && achievement.secret) ? '❓' : achievement.emoji}
-                                    </div>
-
-                                    {/* Title */}
-                                    <h3 className={`font-black text-sm mb-1 ${earned ? 'text-gray-900' : 'text-gray-500'}`}>
-                                        {(!earned && achievement.secret) ? '???' : achievement.title}
-                                    </h3>
-
-                                    {/* Description */}
-                                    <p className={`text-xs leading-snug mb-3 ${earned ? 'text-gray-500' : 'text-gray-400'}`}>
-                                        {(!earned && achievement.secret) ? 'Secret achievement' : achievement.description}
-                                    </p>
-
-                                    {/* XP tag */}
-                                    <div className={`mt-auto flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full
-                    ${earned
-                                            ? `bg-gradient-to-r ${achievement.color} text-white`
-                                            : 'bg-gray-100 text-gray-400'
-                                        }`}>
-                                        <span>⚡</span>
-                                        <span>{achievement.xp} XP</span>
-                                    </div>
-
-                                    {/* Locked overlay */}
-                                    {!earned && (
-                                        <div className="absolute top-2 right-2 text-gray-300 text-xs">🔒</div>
-                                    )}
-
-                                    {/* NEW ribbon */}
-                                    {isNew && (
-                                        <div className="absolute -top-2 -right-2 bg-green-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">
-                                            NEW!
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    {/* CTA section */}
-                    <div className="grid md:grid-cols-2 gap-5">
-                        <div className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl p-7 text-white">
-                            <div className="text-3xl mb-3">🎮</div>
-                            <h3 className="font-black text-xl mb-2">Earn More Badges!</h3>
-                            <p className="text-indigo-200 text-sm mb-4">Play quizzes, build streaks, and complete special challenges to unlock every badge.</p>
-                            <Link href="/practice" className="inline-block px-5 py-2.5 bg-white text-indigo-700 font-black rounded-xl hover:scale-105 transition-transform text-sm">
-                                🎮 Play Now →
-                            </Link>
-                        </div>
-                        <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-3xl p-7 text-white">
-                            <div className="text-3xl mb-3">📅</div>
-                            <h3 className="font-black text-xl mb-2">Daily Challenge Streak</h3>
-                            <p className="text-orange-100 text-sm mb-4">Come back every day! The Daily Challenge builds streaks and unlocks powerful daily badges.</p>
-                            <Link href="/practice/daily" className="inline-block px-5 py-2.5 bg-white text-orange-700 font-black rounded-xl hover:scale-105 transition-transform text-sm">
-                                📅 Today's Challenge →
-                            </Link>
-                        </div>
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                        <div className="text-3xl font-black text-emerald-400">{pct}%</div>
+                        <div className="text-white/50 text-xs mt-1">Complete</div>
                     </div>
                 </div>
-            </main>
-            <Footer />
-        </>
+
+                {/* Progress bar */}
+                <div className="mb-8">
+                    <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                        <div
+                            className="h-full rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 transition-all duration-1000"
+                            style={{ width: `${pct}%`, boxShadow: '0 0 12px rgba(251,191,36,0.5)' }}
+                        />
+                    </div>
+                    <div className="text-center text-white/30 text-xs mt-1.5">{unlockedCount} of {ALL_ACHIEVEMENTS.length} badges earned</div>
+                </div>
+
+                {/* ─── Category Filter ──────────────────────────── */}
+                <div className="flex flex-wrap gap-2 justify-center mb-8">
+                    {categories.map(cat => (
+                        <button
+                            key={cat}
+                            onClick={() => setFilter(cat)}
+                            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${filter === cat
+                                ? 'bg-indigo-500 text-white shadow-lg'
+                                : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+                                }`}
+                        >
+                            {cat === 'all' ? '🎖️ All' : CATEGORY_LABELS[cat] || cat}
+                        </button>
+                    ))}
+                </div>
+
+                {/* ─── Badge Grid ──────────────────────────────── */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {filtered.map((ach: Achievement, i: number) => {
+                        const isUnlocked = unlocked.includes(ach.id);
+                        return (
+                            <button
+                                key={ach.id}
+                                onClick={() => setSelected(selected === ach.id ? null : ach.id)}
+                                className={`relative rounded-3xl p-4 text-center border-2 transition-all duration-300 hover:-translate-y-1 ${isUnlocked
+                                    ? 'bg-white/10 border-white/30 hover:border-white/60'
+                                    : 'bg-white/3 border-white/10 hover:border-white/20'
+                                    } ${selected === ach.id ? 'ring-2 ring-offset-2 ring-offset-slate-900 ring-indigo-400' : ''}`}
+                                style={{
+                                    animation: isUnlocked ? `badge-in 0.4s cubic-bezier(0.34,1.56,0.64,1) ${i * 0.04}s both` : undefined,
+                                }}
+                            >
+                                {/* Secret badge mask */}
+                                {ach.secret && !isUnlocked && (
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/80 rounded-3xl backdrop-blur-sm z-10">
+                                        <div className="text-3xl">🔒</div>
+                                        <div className="text-white/40 text-xs font-bold mt-1">Secret</div>
+                                    </div>
+                                )}
+                                <div className={`text-4xl mb-2 ${isUnlocked ? '' : 'grayscale opacity-30'}`}>
+                                    {ach.emoji}
+                                </div>
+                                {isUnlocked && (
+                                    <div className={`absolute top-2 right-2 w-3 h-3 rounded-full bg-gradient-to-br ${ach.color}`} />
+                                )}
+                                <div className={`text-xs font-black leading-tight mb-0.5 ${isUnlocked ? 'text-white' : 'text-white/30'}`}>
+                                    {ach.secret && !isUnlocked ? '???' : ach.title}
+                                </div>
+                                <div className={`text-[10px] ${isUnlocked ? 'text-indigo-300' : 'text-white/20'}`}>
+                                    {isUnlocked ? `+${ach.xp} XP` : ach.secret ? '???' : ach.description}
+                                </div>
+                                {isUnlocked && (
+                                    <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${ach.color} opacity-10`} />
+                                    </div>
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
+
+                {/* ─── Detail Panel ─────────────────────────────── */}
+                {selected && (() => {
+                    const ach: Achievement | undefined = ALL_ACHIEVEMENTS.find((a: Achievement) => a.id === selected);
+                    if (!ach) return null;
+                    const isUnlocked = unlocked.includes(ach.id);
+                    return (
+                        <div
+                            className={`mt-6 p-6 rounded-3xl border-2 text-center transition-all
+                                ${isUnlocked ? 'border-white/30' : 'border-white/10'}`}
+                            style={{ background: 'rgba(15,23,42,0.8)' }}
+                        >
+                            <div className="text-6xl mb-3">{ach.emoji}</div>
+                            <div className={`text-xl font-black mb-1 ${isUnlocked ? 'text-white' : 'text-white/40'}`}>{ach.title}</div>
+                            <div className={`text-sm mb-3 ${isUnlocked ? 'text-indigo-200' : 'text-white/30'}`}>{ach.description}</div>
+                            <div className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-gradient-to-r ${ach.color} text-white`}>
+                                {isUnlocked ? `✓ Unlocked — +${ach.xp} XP` : `🔒 Locked — Worth ${ach.xp} XP`}
+                            </div>
+                        </div>
+                    );
+                })()}
+
+                <div className="text-center mt-10">
+                    <Link href="/practice"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-colors">
+                        🎮 Back to Practice Hub
+                    </Link>
+                </div>
+            </div>
+        </div>
     );
 }
