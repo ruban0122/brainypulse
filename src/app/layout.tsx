@@ -191,6 +191,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* ── Google AdSense ──────────────────────────────────────────────
+            IMPORTANT: Replace YOUR_PUBLISHER_ID with your actual ca-pub-XXXXXXXXXXXXXXXX
+            You can find it in AdSense > Account > Account information
+            Data-overlays-config enables non-personalised ads (required for children's sites) */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9880823545934880"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}

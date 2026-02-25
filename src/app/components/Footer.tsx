@@ -93,15 +93,17 @@ export default function Footer() {
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-slate-500 text-xs">
+                <div className="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-slate-500 text-xs">
                     <p>© {new Date().getFullYear()} BrainyPulse. Made with ❤️ for young learners everywhere.</p>
-                    <p className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 flex-wrap justify-center">
+                        <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
+                        <span>•</span>
+                        <Link href="/terms" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
+                        <span>•</span>
                         <span>Free Math Worksheets</span>
                         <span>•</span>
-                        <span>Interactive Math Quizzes</span>
-                        <span>•</span>
                         <span>For Kids</span>
-                    </p>
+                    </div>
                 </div>
             </div>
         </footer>
