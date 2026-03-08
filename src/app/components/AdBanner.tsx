@@ -3,9 +3,13 @@
 import { useEffect, useRef } from 'react';
 
 interface AdBannerProps {
+    /** AdSense data-ad-slot value — find this in your AdSense dashboard under Ads > By ad unit */
     adSlot: string;
+    /** Ad format: 'auto' for responsive, 'rectangle', 'horizontal', 'vertical' */
     adFormat?: 'auto' | 'rectangle' | 'horizontal' | 'vertical';
+    /** Class name for the outer wrapper — use for controlling layout/spacing */
     className?: string;
+    /** Optional label shown above the ad */
     showLabel?: boolean;
 }
 
@@ -15,26 +19,21 @@ export default function AdBanner({
     className = '',
     showLabel = false,
 }: AdBannerProps) {
-    const insRef = useRef<HTMLModElement>(null);
+    const pushed = useRef(false);
 
     useEffect(() => {
-        // Each time this component mounts, push a fresh ad request.
-        // We check that the <ins> hasn't already been filled by AdSense
-        // (AdSense sets data-adsbygoogle-status="done" when it fills a slot).
-        const el = insRef.current;
-        if (!el) return;
-
-        // If AdSense already processed this exact element, skip
-        if (el.getAttribute('data-adsbygoogle-status')) return;
+        // Prevent double-push in strict mode / fast refresh
+        if (pushed.current) return;
+        pushed.current = true;
 
         try {
-            // @ts-expect-error — adsbygoogle is injected by the AdSense script tag in layout.tsx
+            // @ts-expect-error — adsbygoogle is injected by the AdSense script
             (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (err) {
+            // Silently fail in environments where AdSense isn't loaded (e.g., localhost)
             console.warn('[AdBanner] AdSense push failed:', err);
         }
-    // Re-run whenever the slot changes (e.g. navigating between tests)
-    }, [adSlot]);
+    }, []);
 
     return (
         <div className={`w-full overflow-hidden ${className}`}>
@@ -44,9 +43,8 @@ export default function AdBanner({
                 </p>
             )}
             <ins
-                ref={insRef}
                 className="adsbygoogle block"
-                style={{ display: 'block', minHeight: '100px' }}
+                style={{ display: 'block' }}
                 data-ad-client="ca-pub-9880823545934880"
                 data-ad-slot={adSlot}
                 data-ad-format={adFormat}
