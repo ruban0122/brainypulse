@@ -3,50 +3,38 @@
 import { useEffect, useRef } from 'react';
 
 interface AdBannerProps {
-    /** AdSense data-ad-slot value — find this in your AdSense dashboard under Ads > By ad unit */
     adSlot: string;
-    /** Ad format: 'auto' for responsive, 'rectangle', 'horizontal', 'vertical' */
     adFormat?: 'auto' | 'rectangle' | 'horizontal' | 'vertical';
-    /** Class name for the outer wrapper — use for controlling layout/spacing */
     className?: string;
-    /** Optional label shown above the ad */
     showLabel?: boolean;
 }
 
-/**
- * AdBanner — Renders a Google AdSense ad unit.
- *
- * SETUP:
- * 1. Replace 'YOUR_PUBLISHER_ID' in layout.tsx with your actual ca-pub-XXXXXXXXXXXXXXXX
- * 2. Replace the adSlot prop with your actual ad unit slot IDs from AdSense dashboard
- * 3. Set data-ad-test="on" to test without real ads during development
- *
- * USAGE:
- * <AdBanner adSlot="1234567890" adFormat="auto" />
- * <AdBanner adSlot="0987654321" adFormat="rectangle" className="my-8" showLabel />
- */
 export default function AdBanner({
     adSlot,
     adFormat = 'auto',
     className = '',
     showLabel = false,
 }: AdBannerProps) {
-    const adRef = useRef<HTMLModElement>(null);
-    const pushed = useRef(false);
+    const insRef = useRef<HTMLModElement>(null);
 
     useEffect(() => {
-        // Prevent double-push in strict mode / fast refresh
-        if (pushed.current) return;
-        pushed.current = true;
+        // Each time this component mounts, push a fresh ad request.
+        // We check that the <ins> hasn't already been filled by AdSense
+        // (AdSense sets data-adsbygoogle-status="done" when it fills a slot).
+        const el = insRef.current;
+        if (!el) return;
+
+        // If AdSense already processed this exact element, skip
+        if (el.getAttribute('data-adsbygoogle-status')) return;
 
         try {
-            // @ts-expect-error — adsbygoogle is injected by the AdSense script
+            // @ts-expect-error — adsbygoogle is injected by the AdSense script tag in layout.tsx
             (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (err) {
-            // Silently fail in environments where AdSense isn't loaded (e.g., localhost)
             console.warn('[AdBanner] AdSense push failed:', err);
         }
-    }, []);
+    // Re-run whenever the slot changes (e.g. navigating between tests)
+    }, [adSlot]);
 
     return (
         <div className={`w-full overflow-hidden ${className}`}>
@@ -56,15 +44,13 @@ export default function AdBanner({
                 </p>
             )}
             <ins
-                ref={adRef}
+                ref={insRef}
                 className="adsbygoogle block"
-                style={{ display: 'block' }}
+                style={{ display: 'block', minHeight: '100px' }}
                 data-ad-client="ca-pub-9880823545934880"
                 data-ad-slot={adSlot}
                 data-ad-format={adFormat}
                 data-full-width-responsive="true"
-            // Remove the line below after testing — it enables test ads during development:
-            // data-ad-test="on"
             />
         </div>
     );
