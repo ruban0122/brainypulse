@@ -6,18 +6,18 @@ import { useState, useRef, useEffect } from 'react';
 
 // Primary links — always visible on desktop
 const PRIMARY_LINKS = [
-    { href: '/', label: 'Home' },
-    { href: '/practice', label: '🎮 Play' },
+    { href: '/', label: '🏠 Home' },
+    { href: '/tests', label: '🧠 Tests' },
+    { href: '/maths', label: '🔢 Maths' },
     { href: '/games', label: '🕹️ Games' },
-    { href: '/worksheets', label: '📄 Worksheets' },
 ];
 
 // Secondary links — tucked into "More" dropdown
 const MORE_LINKS = [
     { href: '/practice/daily', label: '📅 Daily Challenge' },
     { href: '/achievements', label: '🏅 Badges' },
-    { href: '/about', label: 'About' },
-    { href: '/contact', label: 'Contact' },
+    { href: '/about', label: 'ℹ️ About' },
+    { href: '/contact', label: '✉️ Contact' },
 ];
 
 export default function Navbar() {
@@ -37,11 +37,17 @@ export default function Navbar() {
         return () => document.removeEventListener('mousedown', handler);
     }, []);
 
+    // Close mobile menu on route change
+    useEffect(() => {
+        setMobileOpen(false);
+        setMoreOpen(false);
+    }, [pathname]);
+
     const isActive = (href: string) =>
         href === '/' ? pathname === '/' : pathname.startsWith(href);
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200/60 shadow-sm">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/60 shadow-sm">
             <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
 
                 {/* ── Logo ── */}
@@ -109,7 +115,7 @@ export default function Navbar() {
 
                 {/* ── Desktop CTA ── */}
                 <div className="hidden md:flex items-center gap-2 shrink-0">
-                    <Link href="/practice" id="nav-play-cta"
+                    <Link href="/tests" id="nav-play-cta"
                         className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-bold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition shadow hover:shadow-lg hover:scale-105 active:scale-95 whitespace-nowrap">
                         🚀 Play Free
                     </Link>
@@ -145,7 +151,7 @@ export default function Navbar() {
                         </Link>
                     ))}
                     <div className="pt-2">
-                        <Link href="/practice" onClick={() => setMobileOpen(false)}
+                        <Link href="/tests" onClick={() => setMobileOpen(false)}
                             className="block w-full text-center px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-bold rounded-xl">
                             🚀 Play Free
                         </Link>

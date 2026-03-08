@@ -5,21 +5,33 @@ const BASE_URL = 'https://www.brainypulse.com';
 export default function sitemap(): MetadataRoute.Sitemap {
     const now = new Date();
 
-    // Static top-level pages
+    // ── Top-level static pages ──────────────────────────────────────────────
     const staticPages: MetadataRoute.Sitemap = [
-        { url: BASE_URL, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
-        { url: `${BASE_URL}/practice`, lastModified: now, changeFrequency: 'weekly', priority: 0.95 },
-        { url: `${BASE_URL}/games`, lastModified: now, changeFrequency: 'weekly', priority: 0.95 },
-        { url: `${BASE_URL}/worksheets`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/practice/daily`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/achievements`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-        { url: `${BASE_URL}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
-        { url: `${BASE_URL}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.4 },
-        { url: `${BASE_URL}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
-        { url: `${BASE_URL}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+        { url: BASE_URL,                            lastModified: now, changeFrequency: 'daily',   priority: 1.0 },
+        { url: `${BASE_URL}/tests`,                 lastModified: now, changeFrequency: 'daily',   priority: 0.98 },
+        { url: `${BASE_URL}/maths`,                 lastModified: now, changeFrequency: 'weekly',  priority: 0.95 },
+        { url: `${BASE_URL}/games`,                 lastModified: now, changeFrequency: 'weekly',  priority: 0.9  },
+        { url: `${BASE_URL}/worksheets`,            lastModified: now, changeFrequency: 'weekly',  priority: 0.88 },
+        { url: `${BASE_URL}/practice`,              lastModified: now, changeFrequency: 'weekly',  priority: 0.85 },
+        { url: `${BASE_URL}/practice/daily`,        lastModified: now, changeFrequency: 'daily',   priority: 0.88 },
+        { url: `${BASE_URL}/achievements`,          lastModified: now, changeFrequency: 'monthly', priority: 0.6  },
+        { url: `${BASE_URL}/about`,                 lastModified: now, changeFrequency: 'monthly', priority: 0.5  },
+        { url: `${BASE_URL}/contact`,               lastModified: now, changeFrequency: 'monthly', priority: 0.4  },
+        { url: `${BASE_URL}/privacy`,               lastModified: now, changeFrequency: 'yearly',  priority: 0.3  },
+        { url: `${BASE_URL}/terms`,                 lastModified: now, changeFrequency: 'yearly',  priority: 0.3  },
     ];
 
-    // Practice quiz pages
+    // ── Brain Test pages (HIGH priority — new SEO targets) ──────────────────
+    const testPages: MetadataRoute.Sitemap = [
+        'reaction-time', 'click-speed', 'memory', 'typing-speed', 'math-speed'
+    ].map(slug => ({
+        url: `${BASE_URL}/tests/${slug}`,
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.95,
+    }));
+
+    // ── Practice quiz pages ──────────────────────────────────────────────────
     const practicePages = [
         'addition', 'subtraction', 'multiplication', 'division',
         'fractions', 'mixed', 'place-value', 'times-tables',
@@ -31,7 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
     }));
 
-    // Worksheet pages
+    // ── Worksheet pages ──────────────────────────────────────────────────────
     const worksheetPages = [
         'addition', 'subtraction', 'multiplication', 'division',
         'fractions', 'place-value', 'number-bonds', 'number-line',
@@ -49,7 +61,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.75,
     }));
 
-    // Games pages
+    // ── Games pages ──────────────────────────────────────────────────────────
     const gamePages = ['memory', 'lightning', 'ninja', 'blitz'].map(slug => ({
         url: `${BASE_URL}/games/${slug}`,
         lastModified: now,
@@ -57,5 +69,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
     }));
 
-    return [...staticPages, ...practicePages, ...worksheetPages, ...gamePages];
+    return [...staticPages, ...testPages, ...practicePages, ...worksheetPages, ...gamePages];
 }

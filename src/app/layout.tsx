@@ -21,14 +21,23 @@ export const metadata: Metadata = {
 
   // ── Title Template ──────────────────────────────────────────────
   title: {
-    default: "BrainyPulse | Free Maths Games, Quizzes & Worksheets for Kids",
+    default: "BrainyPulse | Free Brain Tests, Reaction Time, Typing Speed & Maths Games",
     template: "%s | BrainyPulse",
   },
 
   // ── Core SEO ────────────────────────────────────────────────────
   description:
-    "BrainyPulse — Free maths games, daily quizzes, and printable worksheets for kids aged 5–12. Build real maths skills through play. Trusted by parents and teachers worldwide.",
+    "BrainyPulse — Free brain tests for reaction time, typing speed, memory and click speed. Plus free maths quizzes and printable worksheets for kids. Instant results, global leaderboards. No sign-up needed.",
   keywords: [
+    "brain tests online",
+    "reaction time test",
+    "typing speed test",
+    "memory test online",
+    "click speed test CPS",
+    "mental math speed test",
+    "free brain games",
+    "WPM test online",
+    "reflex test online",
     "free maths games for kids",
     "maths worksheets",
     "printable maths worksheets",
@@ -42,7 +51,8 @@ export const metadata: Metadata = {
     "times tables practice",
     "maths for children",
     "free educational games",
-    "brain games for kids",
+    "brain speed test",
+    "cognitive tests free",
     "BrainyPulse",
   ],
   authors: [{ name: "BrainyPulse", url: BASE_URL }],
@@ -72,15 +82,15 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: BASE_URL,
     siteName: "BrainyPulse",
-    title: "BrainyPulse | Free Maths Games, Quizzes & Worksheets for Kids",
+    title: "BrainyPulse | Free Brain Tests, Reaction Time, Typing Speed & Maths Games",
     description:
-      "Play free maths games, take daily quizzes, and print unlimited worksheets. Fun learning for kids aged 5–12.",
+      "Free brain tests for reaction time, typing speed, memory and more. Plus maths quizzes and printable worksheets. Instant results — no sign-up needed.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "BrainyPulse — Free Maths Games & Worksheets for Kids",
+        alt: "BrainyPulse — Free Brain Tests, Typing Speed, Reaction Time & Maths Games",
       },
     ],
   },
@@ -88,9 +98,9 @@ export const metadata: Metadata = {
   // ── Twitter Card ────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
-    title: "BrainyPulse | Free Maths Games & Worksheets for Kids",
+    title: "BrainyPulse | Free Brain Tests — Reaction Time, Typing Speed & More",
     description:
-      "Play free maths games, take daily quizzes, and print unlimited worksheets. Fun learning for kids aged 5–12.",
+      "Free brain tests: reaction time, typing speed, memory, click speed & math speed. Plus maths quizzes and worksheets for kids. No sign-up needed.",
     images: ["/og-image.png"],
     creator: "@brainypulse",
     site: "@brainypulse",
@@ -124,13 +134,13 @@ const jsonLd = {
       url: BASE_URL,
       name: "BrainyPulse",
       description:
-        "Free maths games, quizzes, and printable worksheets for kids aged 5–12.",
+        "Free brain tests, reaction time test, typing speed test, memory test, and maths games for kids and adults.",
       publisher: { "@id": `${BASE_URL}/#organization` },
       potentialAction: {
         "@type": "SearchAction",
         target: {
           "@type": "EntryPoint",
-          urlTemplate: `${BASE_URL}/worksheets?q={search_term_string}`,
+          urlTemplate: `${BASE_URL}/tests`,
         },
         "query-input": "required name=search_term_string",
       },
@@ -160,13 +170,12 @@ const jsonLd = {
       name: "BrainyPulse",
       url: BASE_URL,
       description:
-        "An online platform offering free maths games, quizzes, and printable worksheets for primary school children.",
-      educationalLevel: ["Primary School", "KS1", "KS2"],
-      teaches: "Mathematics",
+        "An online platform offering free brain tests, cognitive games, maths quizzes, and printable worksheets for all ages.",
+      educationalLevel: ["Primary School", "KS1", "KS2", "All Ages"],
+      teaches: ["Mathematics", "Cognitive Skills", "Typing", "Memory"],
       audience: {
-        "@type": "EducationalAudience",
-        educationalRole: ["student", "parent", "teacher"],
-        audienceType: "Children aged 5–12",
+        "@type": "Audience",
+        audienceType: "Kids, Teens, Adults",
       },
     },
   ],

@@ -167,12 +167,39 @@ function makeTime(d: Difficulty, id: number): Question {
         if (w !== answer && !wrongs.includes(w)) wrongs.push(w);
     }
 
+    // Build a human-readable description of what the clock hands show
+    // WITHOUT mentioning the numeric time directly
+    const minuteHandPos = minutes === 0 ? 12 : minutes / 5; // e.g. 30 min → 6
+    const minuteWord = (pos: number) => {
+        const words: Record<number, string> = {
+            12: 'the 12', 1: 'the 1', 2: 'the 2', 3: 'the 3',
+            4: 'the 4', 5: 'the 5', 6: 'the 6', 7: 'the 7',
+            8: 'the 8', 9: 'the 9', 10: 'the 10', 11: 'the 11',
+        };
+        return words[pos] ?? `the ${pos}`;
+    };
+
+    const questionVariants = [
+        `The hour hand points to ${hours} and the minute hand points to ${minuteWord(minuteHandPos)}. What time is it?`,
+        `A clock has its hour hand on ${hours} and its minute hand on ${minuteWord(minuteHandPos)}. Which time does it show?`,
+        `${minutes === 0
+            ? `The minute hand is at the top (12) and the hour hand is on ${hours}.`
+            : `The hour hand is between ${hours} and ${hours % 12 + 1}, and the minute hand points to ${minuteWord(minuteHandPos)}.`
+        } What time is it?`,
+    ];
+    const questionText = questionVariants[id % questionVariants.length];
+
+    // Hint describes how to read a clock
+    const hintMinutes = minutes === 0
+        ? 'Minute hand at 12 = exactly on the hour (":00")'
+        : `Minute hand at ${minuteWord(minuteHandPos)} = ${minutes} minutes past`;
+
     return {
         id,
-        text: `The clock shows ${hours}:${minStr}. What time is it?`,
+        text: questionText,
         answer,
         choices: shuffle([answer, ...wrongs]),
-        hint: `The hour hand points to ${hours}, the minute hand to ${minutes === 0 ? 12 : minutes / 5}`,
+        hint: `Hour hand on ${hours} → it's ${hours} o'clock range. ${hintMinutes}.`,
         visual: '🕐',
     };
 }
