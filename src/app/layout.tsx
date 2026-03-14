@@ -153,7 +153,7 @@ const jsonLd = {
       url: BASE_URL,
       logo: {
         "@type": "ImageObject",
-        url: `${BASE_URL}/brainypulse-logo.svg`,
+        url: `${BASE_URL}/brainypulse-logo.png`,
         width: 280,
         height: 72,
       },
@@ -190,9 +190,6 @@ export default function RootLayout({
     <html lang="en-GB">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon-192.png" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/svg+xml" href="/brainypulse-logo.svg" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="format-detection" content="telephone=no" />

@@ -51,12 +51,12 @@ export default function Navbar() {
             <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
 
                 {/* ── Logo ── */}
-                <Link href="/" className="flex items-center group shrink-0" onClick={() => setMobileOpen(false)}>
+                <Link href="/" className="flex items-center group shrink-0 ml-1" onClick={() => setMobileOpen(false)}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        src="/brainypulse-logo.svg"
+                        src="/brainypulse-logo.png"
                         alt="BrainyPulse"
-                        className="h-9 w-auto group-hover:scale-105 transition-transform duration-300"
+                        className="h-[64px] w-auto object-contain scale-[1.3] md:scale-[1.5] origin-left group-hover:scale-[1.35] md:group-hover:scale-[1.55] transition-transform duration-300"
                     />
                 </Link>
 

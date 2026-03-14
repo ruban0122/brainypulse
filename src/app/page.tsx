@@ -442,7 +442,7 @@ export default function DiscoveryHub() {
           <div className="max-w-5xl mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
               {[
-                { ref: stat1.ref, count: stat1.count, suffix: '+', label: 'Tests Taken', icon: '🧪', format: (n: number) => n >= 1000000 ? `${(n/1000000).toFixed(1)}M` : n.toLocaleString() },
+                { ref: stat1.ref, count: stat1.count, suffix: '+', label: 'Tests Taken', icon: '🧪', format: (n: number) => n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n.toLocaleString() },
                 { ref: stat2.ref, count: stat2.count, suffix: '', label: 'Brain Tests', icon: '🧠', format: (n: number) => String(n) },
                 { ref: stat3.ref, count: stat3.count, suffix: '%', label: 'Free Forever', icon: '🆓', format: (n: number) => String(n) },
                 { ref: stat4.ref, count: stat4.count, suffix: '%', label: 'No Sign-up', icon: '✅', format: (n: number) => String(n) },

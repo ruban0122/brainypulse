@@ -8,12 +8,12 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
                     {/* Brand */}
                     <div className="md:col-span-1">
-                        <div className="mb-4">
+                        <div className="mb-2 -ml-3">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src="/brainypulse-logo.svg" alt="BrainyPulse" className="h-9 w-auto brightness-0 invert opacity-90" />
+                            <img src="/brainypulse-logo.png" alt="BrainyPulse" className="h-[80px] md:h-[95px] w-auto object-contain scale-[1.15] brightness-0 invert opacity-90" />
                         </div>
                         <p className="text-slate-400 text-sm leading-relaxed">
-                            Free maths games, quizzes &amp; worksheets for curious kids. Learn through play, every single day.
+                            Train your brain with our totally free reaction tests, typing speeds, memory challenges, and math quizzes! Push your limits and track your high scores.
                         </p>
                         <div className="flex items-center gap-3 mt-5">
                             {['🌟', '🧠', '🏆'].map((e, i) => (
@@ -22,18 +22,17 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Worksheets */}
+                    {/* Brain Tests */}
                     <div>
-                        <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">📄 Worksheets</h3>
+                        <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">🧠 Brain Tests</h3>
                         <ul className="space-y-2 text-slate-400 text-sm">
                             {[
-                                ['Addition', '/worksheets/addition'],
-                                ['Subtraction', '/worksheets/subtraction'],
-                                ['Multiplication', '/worksheets/multiplication'],
-                                ['Division', '/worksheets/division'],
-                                ['Fractions', '/worksheets/fractions'],
-                                ['Place Value', '/worksheets/place-value'],
-                                ['All Worksheets →', '/worksheets'],
+                                ['Reaction Time', '/tests/reaction-time'],
+                                ['Typing Speed', '/tests/typing-speed'],
+                                ['Memory Test', '/tests/memory'],
+                                ['Click Speed', '/tests/click-speed'],
+                                ['Math Speed', '/tests/math-speed'],
+                                ['All Tests →', '/tests'],
                             ].map(([label, href]) => (
                                 <li key={href}>
                                     <Link href={href} className="hover:text-white transition-colors">
@@ -44,18 +43,17 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Math Play */}
+                    {/* Math & Quizzes */}
                     <div>
-                        <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">🎮 Math Play</h3>
+                        <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">🔢 Maths & Quizzes</h3>
                         <ul className="space-y-2 text-slate-400 text-sm">
                             {[
-                                ['Addition Quiz', '/practice/addition'],
-                                ['Multiplication Quiz', '/practice/multiplication'],
+                                ['Addition', '/practice/addition'],
+                                ['Subtraction', '/practice/subtraction'],
+                                ['Multiplication', '/practice/multiplication'],
+                                ['Division', '/practice/division'],
                                 ['Daily Challenge', '/practice/daily'],
-                                ['Speed Run', '/practice/speed-run'],
-                                ['Word Problems', '/practice/word-problems'],
-                                ['Times Tables', '/practice/times-tables'],
-                                ['All Quizzes →', '/practice'],
+                                ['All Math →', '/maths'],
                             ].map(([label, href]) => (
                                 <li key={href}>
                                     <Link href={href} className="hover:text-white transition-colors">
@@ -66,16 +64,16 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Company */}
+                    {/* Games & Links */}
                     <div>
-                        <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">Company</h3>
+                        <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">🕹️ Games & Links</h3>
                         <ul className="space-y-2 text-slate-400 text-sm">
                             {[
-                                ['Home', '/'],
+                                ['Ninja Dash', '/games/ninja'],
+                                ['Memory Matrix', '/games/memory'],
+                                ['Lightning Math', '/games/lightning'],
                                 ['About Us', '/about'],
                                 ['Contact', '/contact'],
-                                ['Teacher Tools', '/teacher'],
-                                ['Daily Challenge', '/practice/daily'],
                             ].map(([label, href]) => (
                                 <li key={href}>
                                     <Link href={href} className="hover:text-white transition-colors">
@@ -100,9 +98,9 @@ export default function Footer() {
                         <span>•</span>
                         <Link href="/terms" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
                         <span>•</span>
-                        <span>Free Math Worksheets</span>
+                        <span>Free Brain Tests</span>
                         <span>•</span>
-                        <span>For Kids</span>
+                        <span>For Everyone</span>
                     </div>
                 </div>
             </div>
