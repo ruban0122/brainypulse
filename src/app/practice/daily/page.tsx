@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 
@@ -195,36 +195,36 @@ export default function DailyChallenge() {
                             ← Back to Math Play
                         </Link>
                         <div className="text-5xl mb-3">📅</div>
-                        <h1 className="text-4xl font-black text-white mb-1">Daily Challenge</h1>
+                        <h1 className="text-3xl md:text-4xl font-black text-white mb-1">Daily Challenge</h1>
                         <p className="text-indigo-300 text-sm">One question per day. Build your streak. Come back tomorrow!</p>
                     </div>
 
                     {/* Streak */}
-                    <div className="flex items-center justify-center gap-4 mb-6">
-                        <div className="flex items-center gap-2 bg-orange-500/20 border border-orange-400/30 rounded-2xl px-5 py-3">
+                    <div className="grid grid-cols-2 gap-3 mb-6">
+                        <div className="flex items-center gap-2 bg-orange-500/20 border border-orange-400/30 rounded-2xl px-4 md:px-5 py-3">
                             <span className="text-3xl">🔥</span>
                             <div>
-                                <div className="text-2xl font-black text-orange-300">{streak}</div>
+                                <div className="text-xl md:text-2xl font-black text-orange-300">{streak}</div>
                                 <div className="text-xs text-orange-400/70">Day Streak</div>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 bg-yellow-500/20 border border-yellow-400/30 rounded-2xl px-5 py-3">
+                        <div className="flex items-center gap-2 bg-yellow-500/20 border border-yellow-400/30 rounded-2xl px-4 md:px-5 py-3">
                             <span className="text-3xl">📆</span>
                             <div>
-                                <div className="text-2xl font-black text-yellow-300">{calendarDates.length}</div>
+                                <div className="text-xl md:text-2xl font-black text-yellow-300">{calendarDates.length}</div>
                                 <div className="text-xs text-yellow-400/70">Total Completed</div>
                             </div>
                         </div>
                     </div>
 
                     {/* Question Card */}
-                    <div className="bg-white/5 border border-white/10 rounded-3xl p-6 mb-6">
+                    <div className="bg-white/5 border border-white/10 rounded-3xl p-5 md:p-6 mb-6">
                         <div className="text-center mb-2">
                             <span className="inline-flex items-center gap-2 bg-indigo-600/30 border border-indigo-500/30 rounded-full px-4 py-1 text-xs font-bold text-indigo-300 mb-4">
                                 {question.visual} Today&apos;s Topic: {question.topic}
                             </span>
                         </div>
-                        <p className="text-center text-4xl font-black text-white mb-4">{question.text}</p>
+                        <p className="text-center text-3xl md:text-4xl font-black text-white mb-4">{question.text}</p>
 
                         {/* Hint */}
                         {showHint ? (
@@ -239,7 +239,7 @@ export default function DailyChallenge() {
                         )}
 
                         {/* Choices */}
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-2.5 md:gap-3">
                             {question.choices.map((choice, i) => {
                                 const isSelected = selected === choice;
                                 const isAnswer = choice === question.answer;
@@ -255,7 +255,7 @@ export default function DailyChallenge() {
                                         id={`daily-choice-${i}`}
                                         onClick={() => handleAnswer(choice)}
                                         disabled={selected !== null}
-                                        className={`rounded-2xl py-5 text-2xl font-bold transition-all ${btnClass} disabled:cursor-default`}
+                                        className={`rounded-2xl py-4 md:py-5 text-xl md:text-2xl font-bold transition-all ${btnClass} disabled:cursor-default`}
                                     >
                                         {choice}
                                         {selected !== null && isAnswer && ' ✓'}
@@ -268,9 +268,9 @@ export default function DailyChallenge() {
 
                     {/* Result */}
                     {selected !== null && (
-                        <div className={`pop-in rounded-2xl px-6 py-5 text-center mb-6 ${isCorrect ? 'bg-green-500/20 border border-green-500/40' : 'bg-orange-500/20 border border-orange-500/40'}`}>
+                        <div className={`pop-in rounded-2xl px-5 md:px-6 py-5 text-center mb-6 ${isCorrect ? 'bg-green-500/20 border border-green-500/40' : 'bg-orange-500/20 border border-orange-500/40'}`}>
                             <div className="text-4xl mb-2">{isCorrect ? '🎉' : '💪'}</div>
-                            <p className={`text-xl font-black ${isCorrect ? 'text-green-300' : 'text-orange-300'}`}>
+                            <p className={`text-lg md:text-xl font-black ${isCorrect ? 'text-green-300' : 'text-orange-300'}`}>
                                 {isCorrect ? 'Correct! Great work!' : `Not quite — the answer is ${question.answer}`}
                             </p>
                             <p className="text-white/60 text-sm mt-1">Come back tomorrow for a new challenge!</p>
@@ -278,9 +278,9 @@ export default function DailyChallenge() {
                     )}
 
                     {/* 30-Day Calendar */}
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-5">
                         <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-4">📅 Your 30-Day Streak</p>
-                        <div className="grid grid-cols-10 gap-1.5">
+                        <div className="grid grid-cols-10 gap-1">
                             {calendar.map((day) => (
                                 <div
                                     key={day.key}

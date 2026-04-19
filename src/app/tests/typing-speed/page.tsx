@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
-import TestResult from '../components/TestResult';
+import DesktopOnlyFooter from '@/app/components/DesktopOnlyFooter';
 import AdBanner from '@/app/components/AdBanner';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -348,10 +347,10 @@ export default function TypingSpeedPage() {
             </div>
             <div className="relative max-w-3xl mx-auto px-4">
               <div className="anim-float text-6xl mb-4">⌨️</div>
-              <h1 className="text-4xl md:text-6xl font-black text-white mb-3 leading-tight">
+              <h1 className="text-3xl md:text-6xl font-black text-white mb-3 leading-tight">
                 Typing Speed Test
               </h1>
-              <p className="text-indigo-300 text-lg md:text-xl max-w-xl mx-auto mb-2">
+              <p className="text-indigo-300 text-base md:text-xl max-w-xl mx-auto mb-2">
                 Level up your typing — from beginner to <span className="shimmer-gold font-black">Expert</span>.<br />
                 5 progressive levels · Real WPM scoring · Global leaderboard.
               </p>
@@ -360,14 +359,14 @@ export default function TypingSpeedPage() {
           </section>
 
           {/* Time Mode Selector */}
-          <section className="max-w-3xl mx-auto px-4 mb-8">
+          <section className="max-w-3xl mx-auto px-4 mb-6 md:mb-8">
             <div className="flex items-center justify-center gap-2 flex-wrap">
               <span className="text-white/50 text-sm font-bold mr-2">Duration:</span>
               {TIME_MODES.map(t => (
                 <button
                   key={t}
                   onClick={() => setTimeMode(t)}
-                  className={`px-5 py-2 rounded-full font-black text-sm transition-all border ${
+                  className={`px-4 md:px-5 py-2 rounded-full font-black text-sm transition-all border ${
                     timeMode === t
                       ? 'bg-indigo-500 border-indigo-400 text-white shadow-lg shadow-indigo-500/30'
                       : 'border-white/15 text-white/50 hover:border-white/30 hover:text-white/80 bg-white/5'
@@ -402,7 +401,7 @@ export default function TypingSpeedPage() {
                     {/* Color accent bar */}
                     <div className={`h-1 bg-gradient-to-r ${level.color} ${locked ? 'opacity-30' : ''}`} />
 
-                    <div className="p-5 flex items-center gap-4">
+                    <div className="p-4 md:p-5 flex items-center gap-3 md:gap-4">
                       {/* Level badge */}
                       <div className={`flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${level.color} flex items-center justify-center text-2xl shadow-lg ${locked ? 'grayscale' : ''}`}>
                         {locked ? '🔒' : level.emoji}
@@ -411,7 +410,7 @@ export default function TypingSpeedPage() {
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                          <span className="text-white font-black text-base">Level {level.id} — {level.name}</span>
+                          <span className="text-white font-black text-sm md:text-base">Level {level.id} — {level.name}</span>
                           {passed && <span className="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">✓ Passed</span>}
                           {!locked && !passed && pb !== null && <span className="text-xs bg-orange-500/20 text-orange-400 border border-orange-500/30 px-2 py-0.5 rounded-full font-bold">Keep going!</span>}
                         </div>
@@ -430,7 +429,7 @@ export default function TypingSpeedPage() {
                       {/* CTA */}
                       {!locked && (
                         <button
-                          className={`flex-shrink-0 px-5 py-2.5 rounded-xl font-black text-white text-sm bg-gradient-to-r ${level.color} shadow-lg hover:opacity-90 hover:scale-105 transition-all`}
+                          className={`flex-shrink-0 px-4 md:px-5 py-2.5 rounded-xl font-black text-white text-sm bg-gradient-to-r ${level.color} shadow-lg hover:opacity-90 hover:scale-105 transition-all`}
                           onClick={e => { e.stopPropagation(); startCountdown(level, timeMode); }}
                         >
                           {pb ? 'Retry' : 'Start'} →
@@ -480,7 +479,7 @@ export default function TypingSpeedPage() {
             </div>
           </section>
         </main>
-        <Footer />
+        <DesktopOnlyFooter />
       </>
     );
   }
@@ -499,13 +498,13 @@ export default function TypingSpeedPage() {
         <div className={`min-h-screen bg-gradient-to-br ${selectedLevel.color.replace('from-', 'from-').replace('to-', 'to-')} via-slate-900 flex flex-col items-center justify-center pt-16`}>
           <div className="text-center">
             <div className="text-white/60 text-lg font-bold mb-2">Level {selectedLevel.id} — {selectedLevel.name}</div>
-            <div key={countdown} className="anim-pop text-9xl font-black text-white drop-shadow-2xl mb-4">
+            <div key={countdown} className="anim-pop text-7xl md:text-9xl font-black text-white drop-shadow-2xl mb-4">
               {countdown === 0 ? 'GO!' : countdown}
             </div>
             <p className="text-white/60 text-base">Get ready to type…</p>
           </div>
         </div>
-        <Footer />
+        <DesktopOnlyFooter />
       </>
     );
   }
@@ -528,7 +527,7 @@ export default function TypingSpeedPage() {
           .anim-scale { animation: scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
         `}</style>
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 pt-16">
-          <div className="max-w-xl mx-auto px-4 py-10">
+          <div className="max-w-xl mx-auto px-4 py-8 md:py-10">
 
             {/* Status badge */}
             <div className={`text-center mb-6 anim-scale`}>
@@ -544,13 +543,13 @@ export default function TypingSpeedPage() {
             </div>
 
             {/* Score card */}
-            <div className="bg-white/10 backdrop-blur border border-white/20 rounded-3xl p-8 text-center mb-5 anim-scale">
+            <div className="bg-white/10 backdrop-blur border border-white/20 rounded-3xl p-5 md:p-8 text-center mb-5 anim-scale">
               {isNewPB && (
                 <div className="inline-block bg-yellow-400 text-yellow-900 text-xs font-black px-4 py-1 rounded-full mb-3 animate-bounce uppercase tracking-widest">
                   🏅 New Personal Best!
                 </div>
               )}
-              <div className="text-7xl font-black text-white mb-1 leading-none">
+              <div className="text-5xl md:text-7xl font-black text-white mb-1 leading-none">
                 {finalWpm}<span className="text-3xl font-bold text-white/50"> WPM</span>
               </div>
               <div
@@ -560,7 +559,7 @@ export default function TypingSpeedPage() {
                 <span>{rating.emoji}</span>{rating.label}
               </div>
 
-              <div className="grid grid-cols-3 gap-4 mt-2 pt-4 border-t border-white/10">
+              <div className="grid grid-cols-3 gap-3 md:gap-4 mt-2 pt-4 border-t border-white/10">
                 <div>
                   <div className="text-emerald-400 font-black text-xl">{finalAcc}%</div>
                   <div className="text-white/40 text-xs">Accuracy</div>
@@ -590,7 +589,7 @@ export default function TypingSpeedPage() {
             <div className="space-y-3 anim-up" style={{ opacity: 0, animationDelay: '0.25s' }}>
               <button
                 onClick={() => startCountdown(selectedLevel, timeMode)}
-                className={`w-full py-4 rounded-2xl font-black text-white text-lg bg-gradient-to-r ${selectedLevel.color} hover:opacity-90 hover:scale-105 transition-all shadow-lg`}
+                className={`w-full py-4 rounded-2xl font-black text-white text-base md:text-lg bg-gradient-to-r ${selectedLevel.color} hover:opacity-90 hover:scale-105 transition-all shadow-lg`}
               >
                 🔁 Try Level {selectedLevel.id} Again
               </button>
@@ -598,7 +597,7 @@ export default function TypingSpeedPage() {
               {passed && nextLevel && nextLevel.id <= unlockedLevel && (
                 <button
                   onClick={() => startCountdown(nextLevel, timeMode)}
-                  className={`w-full py-4 rounded-2xl font-black text-white text-lg bg-gradient-to-r ${nextLevel.color} hover:opacity-90 hover:scale-105 transition-all shadow-lg`}
+                  className={`w-full py-4 rounded-2xl font-black text-white text-base md:text-lg bg-gradient-to-r ${nextLevel.color} hover:opacity-90 hover:scale-105 transition-all shadow-lg`}
                 >
                   {nextLevel.emoji} Next: Level {nextLevel.id} — {nextLevel.name} →
                 </button>
@@ -617,14 +616,14 @@ export default function TypingSpeedPage() {
 
               <button
                 onClick={() => setPhase('hub')}
-                className="w-full py-4 rounded-2xl font-black text-lg text-center bg-white/10 border border-white/20 text-white/80 hover:bg-white/15 transition-all"
+                className="w-full py-4 rounded-2xl font-black text-base md:text-lg text-center bg-white/10 border border-white/20 text-white/80 hover:bg-white/15 transition-all"
               >
                 🗂 Back to Level Select
               </button>
             </div>
           </div>
         </div>
-        <Footer />
+        <DesktopOnlyFooter />
       </>
     );
   }
@@ -647,25 +646,25 @@ export default function TypingSpeedPage() {
         <div className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-4 py-6 md:py-10">
 
           {/* ── Top Stats Bar ── */}
-          <div className="grid grid-cols-4 gap-3 mb-5">
+          <div className="grid grid-cols-4 gap-2 md:gap-3 mb-5">
             {/* Timer */}
-            <div className={`bg-white/10 border ${timerUrgent ? 'border-red-500/50' : 'border-white/15'} rounded-2xl p-3 text-center`}>
-              <div className={`text-3xl font-black ${timerUrgent ? 'text-red-400 urgent' : 'text-white'}`}>{timeLeft}</div>
+            <div className={`bg-white/10 border ${timerUrgent ? 'border-red-500/50' : 'border-white/15'} rounded-2xl p-2.5 md:p-3 text-center`}>
+              <div className={`text-2xl md:text-3xl font-black ${timerUrgent ? 'text-red-400 urgent' : 'text-white'}`}>{timeLeft}</div>
               <div className="text-white/40 text-xs font-bold">secs</div>
             </div>
             {/* WPM */}
-            <div className="bg-white/10 border border-white/15 rounded-2xl p-3 text-center">
-              <div className="text-3xl font-black text-emerald-400">{currentWpm}</div>
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-2.5 md:p-3 text-center">
+              <div className="text-2xl md:text-3xl font-black text-emerald-400">{currentWpm}</div>
               <div className="text-white/40 text-xs font-bold">WPM</div>
             </div>
             {/* Accuracy */}
-            <div className="bg-white/10 border border-white/15 rounded-2xl p-3 text-center">
-              <div className={`text-3xl font-black ${accuracy < 90 ? 'text-orange-400' : 'text-sky-400'}`}>{accuracy}%</div>
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-2.5 md:p-3 text-center">
+              <div className={`text-2xl md:text-3xl font-black ${accuracy < 90 ? 'text-orange-400' : 'text-sky-400'}`}>{accuracy}%</div>
               <div className="text-white/40 text-xs font-bold">acc</div>
             </div>
             {/* Combo */}
-            <div className="bg-white/10 border border-white/15 rounded-2xl p-3 text-center">
-              <div className={`text-3xl font-black ${combo >= 10 ? 'text-yellow-400' : 'text-white/60'}`}>{combo}</div>
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-2.5 md:p-3 text-center">
+              <div className={`text-2xl md:text-3xl font-black ${combo >= 10 ? 'text-yellow-400' : 'text-white/60'}`}>{combo}</div>
               <div className="text-white/40 text-xs font-bold">combo</div>
             </div>
           </div>
@@ -685,8 +684,8 @@ export default function TypingSpeedPage() {
           </div>
 
           {/* Passage display */}
-          <div className="bg-white/8 border border-white/15 rounded-2xl p-5 md:p-6 mb-4 flex-1 flex items-center">
-            <p className="font-mono text-lg md:text-xl leading-relaxed tracking-wide break-words w-full select-none">
+          <div className="bg-white/8 border border-white/15 rounded-2xl p-4 md:p-6 mb-4 flex-1 flex items-center">
+            <p className="font-mono text-base sm:text-lg md:text-xl leading-relaxed tracking-wide break-words w-full select-none">
               {renderPassage()}
             </p>
           </div>
@@ -698,7 +697,7 @@ export default function TypingSpeedPage() {
               ref={inputRef}
               value={typed}
               onChange={handleInput}
-              className="glass-input w-full bg-white/10 backdrop-blur text-white placeholder-white/30 font-mono text-lg md:text-xl rounded-2xl px-5 py-4 border-2 border-white/20 focus:border-indigo-500/70 focus:outline-none transition-all"
+              className="glass-input w-full bg-white/10 backdrop-blur text-white placeholder-white/30 font-mono text-base sm:text-lg md:text-xl rounded-2xl px-4 md:px-5 py-3.5 md:py-4 border-2 border-white/20 focus:border-indigo-500/70 focus:outline-none transition-all"
               placeholder="Start typing the text above…"
               autoComplete="off"
               autoCorrect="off"
@@ -719,7 +718,7 @@ export default function TypingSpeedPage() {
           </div>
         </div>
       </div>
-      <Footer />
+      <DesktopOnlyFooter />
     </>
   );
 }

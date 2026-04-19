@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
+import DesktopOnlyFooter from '@/app/components/DesktopOnlyFooter';
 import TestResult from '../components/TestResult';
 import AdBanner from '@/app/components/AdBanner';
 
@@ -296,7 +296,7 @@ export default function MemoryPage() {
           scoreSubtitle={`You remembered ${sequence.length - 1} items in the sequence`}
           onPlayAgain={() => { setPhase('intro'); }}
         />
-        <Footer />
+        <DesktopOnlyFooter />
       </>
     );
   }
@@ -575,7 +575,7 @@ export default function MemoryPage() {
         )}
       </div>
 
-      <Footer />
+      <DesktopOnlyFooter />
     </>
   );
 }

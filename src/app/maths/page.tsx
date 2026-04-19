@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
+import DesktopOnlyFooter from '@/app/components/DesktopOnlyFooter';
 import AdBanner from '@/app/components/AdBanner';
 
 const QUIZ_TOPICS = [
@@ -40,65 +40,65 @@ export default function MathsHubPage() {
       `}</style>
 
       <main className="pt-16">
-        {/* ── Hero ── */}
-        <section className="py-16 md:py-20 bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 text-white text-center relative overflow-hidden">
+        <section className="py-12 md:py-20 bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 text-white text-center relative overflow-hidden">
           <div className="absolute inset-0 opacity-10 pointer-events-none">
-            {['➕','✖️','➖','➗','🍕','🔢','📐','🧮'].map((e,i)=>(
-              <span key={i} className="absolute text-4xl" style={{left:`${i*13+3}%`,top:`${i*11+10}%`}}>{e}</span>
+            {['➕', '✖️', '➖', '➗', '🍕', '🔢', '📐', '🧮'].map((emoji, index) => (
+              <span key={index} className="absolute text-3xl md:text-4xl" style={{ left: `${index * 13 + 3}%`, top: `${index * 11 + 10}%` }}>
+                {emoji}
+              </span>
             ))}
           </div>
           <div className="relative max-w-4xl mx-auto px-4">
             <div className="inline-block bg-white/20 text-white text-xs font-bold px-4 py-2 rounded-full mb-4 uppercase tracking-widest border border-white/30">
-              🔢 Maths Hub
+              Maths Hub
             </div>
-            <h1 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
-              Free Maths Practice<br />
+            <h1 className="text-3xl md:text-6xl font-black mb-4 leading-tight">
+              Free Maths Practice
+              <br />
               <span className="text-yellow-400">Kids Actually Love</span>
             </h1>
-            <p className="text-indigo-200 text-xl max-w-2xl mx-auto mb-8">
-              Interactive quizzes with streaks, XP and timers — plus 34+ printable worksheets.
-              Built for ages 5–12. Free forever.
+            <p className="text-indigo-200 text-base md:text-xl max-w-2xl mx-auto mb-8">
+              Interactive quizzes with streaks, XP and timers plus 34+ printable worksheets. Built for ages 5-12. Free forever.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/practice/addition" className="px-8 py-4 bg-yellow-400 text-indigo-900 font-black text-lg rounded-2xl shadow-xl hover:bg-yellow-300 hover:scale-105 transition">
-                🎮 Start a Quiz
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
+              <Link href="/practice/addition" className="w-full sm:w-auto px-8 py-4 bg-yellow-400 text-indigo-900 font-black text-base md:text-lg rounded-2xl shadow-xl hover:bg-yellow-300 hover:scale-105 transition">
+                Start a Quiz
               </Link>
-              <Link href="/worksheets" className="px-8 py-4 bg-white/10 text-white font-black text-lg rounded-2xl border-2 border-white/30 hover:bg-white/20 hover:scale-105 transition">
-                🖨️ Print Worksheets
+              <Link href="/worksheets" className="w-full sm:w-auto px-8 py-4 bg-white/10 text-white font-black text-base md:text-lg rounded-2xl border-2 border-white/30 hover:bg-white/20 hover:scale-105 transition">
+                Print Worksheets
               </Link>
             </div>
           </div>
         </section>
 
-        {/* ── Interactive Quizzes ── */}
-        <section className="py-16 md:py-20 bg-gradient-to-br from-slate-50 to-indigo-50">
+        <section className="py-12 md:py-20 bg-gradient-to-br from-slate-50 to-indigo-50">
           <div className="max-w-6xl mx-auto px-4">
-            <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
+            <div className="flex items-start md:items-center justify-between mb-8 md:mb-10 flex-col sm:flex-row gap-4">
               <div>
                 <div className="inline-block bg-indigo-100 text-indigo-700 text-xs font-bold px-4 py-2 rounded-full mb-2 uppercase tracking-widest">
-                  🎮 Interactive Quizzes
+                  Interactive Quizzes
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black text-gray-900">Choose a Topic</h2>
-                <p className="text-gray-600 mt-1">Live scoring, streaks, XP and timers. Feels like a game!</p>
+                <h2 className="text-2xl md:text-4xl font-black text-gray-900">Choose a Topic</h2>
+                <p className="text-gray-600 mt-1 text-sm md:text-base">Live scoring, streaks, XP and timers. Feels like a game.</p>
               </div>
               <Link href="/practice" className="text-indigo-600 font-bold hover:text-indigo-800 transition text-sm whitespace-nowrap">
                 View all quizzes →
               </Link>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
               {QUIZ_TOPICS.map((topic) => (
                 <Link
                   key={topic.href}
                   href={topic.href}
                   id={`maths-quiz-${topic.label.toLowerCase()}`}
-                  className={`group flex flex-col rounded-2xl p-5 border-2 ${topic.bg} ${topic.border} card-hover`}
+                  className={`group flex flex-col rounded-2xl p-4 md:p-5 border-2 ${topic.bg} ${topic.border} card-hover`}
                 >
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${topic.color} flex items-center justify-center text-2xl mb-3 shadow group-hover:scale-110 transition-transform`}>
                     {topic.emoji}
                   </div>
-                  <h3 className="font-black text-gray-900 mb-1">{topic.label}</h3>
-                  <p className="text-gray-600 text-xs flex-1">{topic.desc}</p>
+                  <h3 className="font-black text-gray-900 mb-1 text-base md:text-lg">{topic.label}</h3>
+                  <p className="text-gray-600 text-xs md:text-sm flex-1">{topic.desc}</p>
                   <div className={`mt-3 text-xs font-bold bg-gradient-to-r ${topic.color} bg-clip-text text-transparent`}>
                     Start quiz →
                   </div>
@@ -108,61 +108,60 @@ export default function MathsHubPage() {
           </div>
         </section>
 
-        {/* ── Ad ── */}
         <section className="py-6 bg-white">
           <div className="max-w-5xl mx-auto px-4">
             <AdBanner adSlot="2215722187" adFormat="auto" showLabel />
           </div>
         </section>
 
-        {/* ── Printable Worksheets ── */}
-        <section className="py-16 bg-white">
+        <section className="py-12 md:py-16 bg-white">
           <div className="max-w-6xl mx-auto px-4">
-            <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
+            <div className="flex items-start md:items-center justify-between mb-8 md:mb-10 flex-col sm:flex-row gap-4">
               <div>
                 <div className="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-4 py-2 rounded-full mb-2 uppercase tracking-widest">
-                  🖨️ Printable Worksheets
+                  Printable Worksheets
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black text-gray-900">34+ Worksheets, One Click</h2>
-                <p className="text-gray-600 mt-1">Generate A4-ready PDFs instantly. No login, no cost.</p>
+                <h2 className="text-2xl md:text-4xl font-black text-gray-900">34+ Worksheets, One Click</h2>
+                <p className="text-gray-600 mt-1 text-sm md:text-base">Generate A4-ready PDFs instantly. No login, no cost.</p>
               </div>
               <Link href="/worksheets" className="text-blue-600 font-bold hover:text-blue-800 transition text-sm whitespace-nowrap">
                 Browse all 34 →
               </Link>
             </div>
 
-            <div className="flex flex-wrap gap-3">
-              {WORKSHEET_TOPICS.map((t) => (
+            <div className="flex flex-wrap gap-2 md:gap-3">
+              {WORKSHEET_TOPICS.map((topic) => (
                 <Link
-                  key={t.href}
-                  href={t.href}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold ${t.color} hover:scale-105 transition-transform border border-current/20`}
+                  key={topic.href}
+                  href={topic.href}
+                  className={`flex items-center gap-2 px-3 py-2.5 md:px-4 rounded-xl text-xs md:text-sm font-bold ${topic.color} hover:scale-105 transition-transform border border-current/20`}
                 >
-                  {t.emoji} {t.label}
+                  {topic.emoji} {topic.label}
                 </Link>
               ))}
-              <Link href="/worksheets"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105 transition-all">
+              <Link
+                href="/worksheets"
+                className="flex items-center gap-2 px-3 py-2.5 md:px-4 rounded-xl text-xs md:text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105 transition-all"
+              >
                 + 26 more worksheets
               </Link>
             </div>
           </div>
         </section>
 
-        {/* ── Daily Challenge ── */}
-        <section className="py-14 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 animate-gradient-x">
+        <section className="py-12 md:py-14 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 animate-gradient-x">
           <div className="max-w-3xl mx-auto px-4 text-center text-white">
-            <div className="text-5xl mb-4">📅</div>
-            <h2 className="text-3xl md:text-4xl font-black mb-3">Daily Maths Challenge</h2>
-            <p className="text-indigo-200 text-lg mb-6">A new challenge every day. Build your streak and earn bonus XP!</p>
-            <Link href="/practice/daily" className="inline-flex items-center gap-2 px-8 py-4 bg-yellow-400 text-indigo-900 font-black text-lg rounded-2xl shadow-xl hover:bg-yellow-300 hover:scale-105 transition">
-              🔥 Today&apos;s Challenge
+            <div className="text-4xl md:text-5xl mb-4">📅</div>
+            <h2 className="text-2xl md:text-4xl font-black mb-3">Daily Maths Challenge</h2>
+            <p className="text-indigo-200 text-base md:text-lg mb-6">A new challenge every day. Build your streak and earn bonus XP.</p>
+            <Link href="/practice/daily" className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-yellow-400 text-indigo-900 font-black text-base md:text-lg rounded-2xl shadow-xl hover:bg-yellow-300 hover:scale-105 transition">
+              Today&apos;s Challenge
             </Link>
           </div>
         </section>
       </main>
 
-      <Footer />
+      <DesktopOnlyFooter />
     </>
   );
 }

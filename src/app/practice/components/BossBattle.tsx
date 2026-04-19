@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { generateQuestions, Operation, Difficulty, Question } from '../quiz-engine';
 import { useSoundEffects } from '../hooks/useSoundEffects';
@@ -233,8 +233,8 @@ export default function BossBattle() {
                         <div className={`inline-block px-4 py-1 rounded-full bg-gradient-to-r ${boss.color} text-white text-xs font-black mb-3`}>
                             BOSS ENCOUNTER
                         </div>
-                        <h1 className="text-4xl font-black text-white mb-3">{boss.name}</h1>
-                        <p className="text-white/60 text-sm italic mb-6">"{boss.taunt}"</p>
+                        <h1 className="text-3xl md:text-4xl font-black text-white mb-3">{boss.name}</h1>
+                        <p className="text-white/60 text-sm italic mb-6">&quot;{boss.taunt}&quot;</p>
                         <div className="bg-white/10 rounded-2xl p-4 mb-6 text-left text-sm text-white/70 space-y-1.5">
                             <div>⚔️ Deal <strong className="text-white">{BOSS_HP_DAMAGE} damage</strong> per correct answer</div>
                             <div>💢 Wrong answers cost <strong className="text-white">❤️ HP</strong></div>
@@ -242,7 +242,7 @@ export default function BossBattle() {
                         </div>
                         <button
                             onClick={startBattle}
-                            className={`w-full py-4 rounded-2xl bg-gradient-to-r ${boss.color} text-white font-black text-xl hover:scale-105 transition-transform shadow-2xl`}
+                            className={`w-full py-4 rounded-2xl bg-gradient-to-r ${boss.color} text-white font-black text-lg md:text-xl hover:scale-105 transition-transform shadow-2xl`}
                         >
                             ⚔️ Fight!
                         </button>
@@ -262,7 +262,7 @@ export default function BossBattle() {
                 <div className="text-center max-w-md">
                     <div className="text-8xl mb-4 animate-bounce">🏆</div>
                     <div className="text-yellow-400 text-xs font-black uppercase tracking-widest mb-2">All Bosses Defeated!</div>
-                    <h1 className="text-4xl font-black text-white mb-2">YOU WIN!</h1>
+                    <h1 className="text-3xl md:text-4xl font-black text-white mb-2">YOU WIN!</h1>
                     <p className="text-white/60 mb-6">You defeated all 3 bosses and proved your math mastery!</p>
                     <div className="bg-white/10 rounded-2xl p-4 mb-6 space-y-2">
                         <div className="text-white/50 text-sm">Correct Answers: <span className="text-green-400 font-black">{correctCount}</span></div>
@@ -291,8 +291,8 @@ export default function BossBattle() {
                 <div className="text-center max-w-md">
                     <div className="text-8xl mb-4">💀</div>
                     <div className="text-red-400 text-xs font-black uppercase tracking-widest mb-2">Defeated!</div>
-                    <h1 className="text-4xl font-black text-white mb-2">Game Over</h1>
-                    <p className="text-white/60 mb-2">"{boss.taunt}"</p>
+                    <h1 className="text-3xl md:text-4xl font-black text-white mb-2">Game Over</h1>
+                    <p className="text-white/60 mb-2">&quot;{boss.taunt}&quot;</p>
                     <p className="text-white/40 text-sm mb-6">You managed {correctCount} correct answers. Try again!</p>
                     <div className="bg-white/10 rounded-2xl p-4 mb-6">
                         <div className="text-white/50 text-sm">XP Earned: <span className="text-yellow-400 font-black">+{totalXP} XP</span></div>
@@ -321,8 +321,8 @@ export default function BossBattle() {
                     <div className="text-8xl mb-2">💥</div>
                     <div className="text-6xl mb-4">{boss.emoji}</div>
                     <div className="text-yellow-400 text-xs font-black uppercase tracking-widest mb-2">Boss Defeated!</div>
-                    <h1 className="text-3xl font-black text-white mb-2">{boss.name} falls!</h1>
-                    <p className="text-white/60 italic mb-6">"{boss.defeatMsg}"</p>
+                    <h1 className="text-2xl md:text-3xl font-black text-white mb-2">{boss.name} falls!</h1>
+                    <p className="text-white/60 italic mb-6">&quot;{boss.defeatMsg}&quot;</p>
                     <div className="bg-white/10 rounded-2xl p-4 mb-6">
                         <div className="text-white font-black text-2xl">+{(bossIndex + 1) * 25} Bonus XP!</div>
                         <div className="text-white/50 text-sm mt-1">Boss Battle Bonus</div>
@@ -330,14 +330,14 @@ export default function BossBattle() {
                     {bossIndex + 1 < BOSSES.length ? (
                         <button
                             onClick={nextBoss}
-                            className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-black text-xl hover:scale-105 transition-transform"
+                            className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-black text-lg md:text-xl hover:scale-105 transition-transform"
                         >
                             ➡️ Face the next boss!
                         </button>
                     ) : (
                         <button
                             onClick={nextBoss}
-                            className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-amber-400 text-white font-black text-xl hover:scale-105 transition-transform"
+                            className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-amber-400 text-white font-black text-lg md:text-xl hover:scale-105 transition-transform"
                         >
                             🏆 Claim Victory!
                         </button>
@@ -374,23 +374,23 @@ export default function BossBattle() {
             )}
 
             {/* Top bar */}
-            <div className="flex items-center justify-between px-4 pt-5 pb-3">
+            <div className="flex items-center justify-between gap-3 px-4 pt-5 pb-3">
                 <Link href="/practice" className="text-white/40 hover:text-white text-sm transition-colors">✕ Retreat</Link>
-                <div className="text-white/50 text-xs font-semibold">
+                <div className="text-white/50 text-[11px] md:text-xs font-semibold text-right">
                     Boss {bossIndex + 1}/{BOSSES.length} · {correctCount} correct · +{totalXP} XP
                 </div>
             </div>
 
             {/* ── HP Bars Row ── */}
             <div className="px-4 max-w-2xl mx-auto w-full mb-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
                     {/* Player HP */}
                     <div>
                         <div className="flex justify-between text-xs text-white/50 mb-1">
                             <span>🧑 YOU</span>
                             <span>{playerHp}/{PLAYER_MAX_HP} HP</span>
                         </div>
-                        <div className="h-4 bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-3.5 md:h-4 bg-white/10 rounded-full overflow-hidden">
                             <div
                                 className={`h-full rounded-full transition-all duration-500 ${playerPct > 50 ? 'bg-green-500' : playerPct > 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
                                 style={{ width: `${playerPct}%` }}
@@ -403,7 +403,7 @@ export default function BossBattle() {
                             <span>{boss.emoji} {boss.name}</span>
                             <span>{bossHp}/{boss.maxHp} HP</span>
                         </div>
-                        <div className="h-4 bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-3.5 md:h-4 bg-white/10 rounded-full overflow-hidden">
                             <div
                                 className={`h-full rounded-full bg-gradient-to-r ${boss.color} transition-all duration-500`}
                                 style={{ width: `${bossPct}%` }}
@@ -417,17 +417,17 @@ export default function BossBattle() {
             <div className="flex-1 flex flex-col items-center px-4 pb-4 max-w-2xl mx-auto w-full">
 
                 {/* Boss + Player visual row */}
-                <div className="flex items-end justify-between w-full mb-4 px-4">
+                <div className="flex items-end justify-between w-full mb-4 px-2 md:px-4">
                     {/* Player side */}
                     <div className={`text-center ${shakePlayer ? 'player-shake' : ''}`}>
-                        <div className="text-5xl mb-1">🧑</div>
+                        <div className="text-4xl md:text-5xl mb-1">🧑</div>
                         <div className="text-white/50 text-xs">You</div>
                     </div>
 
                     {/* Boss action text */}
                     <div className="flex-1 text-center px-4">
                         {bossAction && (
-                            <div key={bossAction} className="action-text text-white font-black text-base text-center px-3 py-2 bg-red-500/20 rounded-xl border border-red-400/30">
+                            <div key={bossAction} className="action-text text-white font-black text-sm md:text-base text-center px-3 py-2 bg-red-500/20 rounded-xl border border-red-400/30">
                                 {bossAction}
                             </div>
                         )}
@@ -436,7 +436,7 @@ export default function BossBattle() {
                     {/* Boss side */}
                     <div className={`text-center ${shakeBoss ? 'boss-hit-anim' : 'boss-float'}`}
                         style={{ filter: shakeBoss ? 'drop-shadow(0 0 20px rgba(255,255,0,0.8))' : `drop-shadow(0 0 12px ${boss.glowColor})` }}>
-                        <div className="text-7xl mb-1 leading-none">{boss.emoji}</div>
+                        <div className="text-6xl md:text-7xl mb-1 leading-none">{boss.emoji}</div>
                         <div className="text-white/50 text-xs">{boss.name}</div>
                     </div>
                 </div>
@@ -453,15 +453,15 @@ export default function BossBattle() {
 
                 {/* Question */}
                 {question && (
-                    <div className="w-full bg-white/10 border border-white/20 rounded-3xl p-6 text-center mb-4">
+                    <div className="w-full bg-white/10 border border-white/20 rounded-3xl p-5 md:p-6 text-center mb-4">
                         {question.visual && <div className="text-4xl mb-2">{question.visual}</div>}
-                        <div className="text-4xl font-black text-white">{question.text}</div>
+                        <div className="text-3xl md:text-4xl font-black text-white">{question.text}</div>
                     </div>
                 )}
 
                 {/* Answer Buttons */}
                 {question && (
-                    <div className="w-full grid grid-cols-2 gap-3">
+                    <div className="w-full grid grid-cols-2 gap-2.5 md:gap-3">
                         {question.choices.map((choice, ci) => {
                             const isSelected = selected === choice;
                             const isAnswer = String(choice) === String(question.answer);
@@ -477,7 +477,7 @@ export default function BossBattle() {
                                     key={ci}
                                     onClick={() => handleAnswer(choice)}
                                     disabled={selected !== null}
-                                    className={`rounded-2xl py-4 text-xl font-black border-2 transition-all duration-200 ${btnClass}`}
+                                    className={`rounded-2xl py-4 text-lg md:text-xl font-black border-2 transition-all duration-200 ${btnClass}`}
                                 >
                                     {choice}
                                     {revealed && isAnswer && ' ✓'}

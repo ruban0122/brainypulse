@@ -653,8 +653,8 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
             )}
 
             {/* ─── Top Bar ──────────────────────────────────────── */}
-            <div className="flex items-center justify-between px-4 pt-5 pb-2 max-w-2xl mx-auto w-full relative z-20">
-                <div className="flex items-center gap-2">
+            <div className="flex items-start justify-between gap-3 px-4 pt-5 pb-2 max-w-2xl mx-auto w-full relative z-20">
+                <div className="flex items-center gap-2 min-w-0">
                     <Link href="/practice" className="text-indigo-300 hover:text-white text-sm transition-colors">
                         ✕ Quit
                     </Link>
@@ -665,13 +665,13 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
                         </div>
                     )}
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center justify-end gap-2 md:gap-3 flex-wrap">
                     {/* Lives */}
                     <div className="flex gap-1">
                         {Array.from({ length: 3 }).map((_, i) => (
                             <span
                                 key={i}
-                                className={`text-xl transition-all duration-300 ${i < lives ? 'opacity-100' : 'opacity-20 grayscale scale-75'
+                                className={`text-lg md:text-xl transition-all duration-300 ${i < lives ? 'opacity-100' : 'opacity-20 grayscale scale-75'
                                     } ${lostHeartAnim && i === lives ? 'animate-bounce' : ''}`}
                                 style={
                                     lostHeartAnim && i === lives
@@ -685,11 +685,11 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
                     </div>
 
                     {/* Score */}
-                    <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5">
+                    <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-2.5 md:px-3 py-1.5">
                         <span className="text-yellow-400 text-sm">⭐</span>
                         <span
                             ref={scoreElRef}
-                            className={`text-white font-black text-base tabular-nums ${scoreAnimating ? 'score-pop' : ''}`}
+                            className={`text-white font-black text-sm md:text-base tabular-nums ${scoreAnimating ? 'score-pop' : ''}`}
                         >
                             {displayScore}
                         </span>
@@ -698,7 +698,7 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
                     {/* Streak Badge */}
                     {streak >= 2 && (
                         <div
-                            className={`flex items-center gap-1 rounded-full px-3 py-1.5 border font-black text-sm ${streak >= 7
+                            className={`flex items-center gap-1 rounded-full px-2.5 md:px-3 py-1.5 border font-black text-xs md:text-sm ${streak >= 7
                                 ? 'bg-red-500/30 border-red-400/60 text-red-200 streak-glow'
                                 : streak >= 5
                                     ? 'bg-orange-500/30 border-orange-400/60 text-orange-200 streak-glow'
@@ -714,7 +714,7 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
                     <button
                         id="btn-sound-toggle"
                         onClick={toggleSound}
-                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition text-sm"
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition text-sm shrink-0"
                     >
                         {soundOn ? '🔊' : '🔇'}
                     </button>
@@ -745,7 +745,7 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
             </div>
 
             {/* ─── Timer ────────────────────────────────────────── */}
-            <div className="px-4 max-w-2xl mx-auto w-full mb-5 relative z-20">
+            <div className="px-4 max-w-2xl mx-auto w-full mb-4 md:mb-5 relative z-20">
                 <div className={`h-3 rounded-full overflow-hidden ${timerPanic ? 'bg-red-950' : 'bg-white/10'}`}>
                     <div
                         className={`h-full rounded-full transition-all duration-1000 ${timerColor} ${timerPanic ? 'shadow-[0_0_12px_rgba(239,68,68,0.8)]' : ''}`}
@@ -768,7 +768,7 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
 
                     {/* Question Box */}
                     <div
-                        className={`rounded-3xl p-8 text-center mb-5 border-2 transition-all duration-300 ${isCorrect === true
+                        className={`rounded-3xl p-5 md:p-8 text-center mb-4 md:mb-5 border-2 transition-all duration-300 ${isCorrect === true
                             ? 'border-green-400/60 bg-green-400/10 shadow-[0_0_30px_rgba(74,222,128,0.2)]'
                             : isCorrect === false
                                 ? 'border-red-400/60 bg-red-400/10 shadow-[0_0_30px_rgba(248,113,113,0.2)]'
@@ -779,9 +779,9 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
                         style={isCorrect === false ? { animation: 'shake 0.5s ease' } : {}}
                     >
                         {question?.visual && (
-                            <div className="text-5xl mb-3">{question.visual}</div>
+                            <div className="text-4xl md:text-5xl mb-3">{question.visual}</div>
                         )}
-                        <p className="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                        <p className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight tracking-tight" style={{ fontVariantNumeric: 'tabular-nums' }}>
                             {question?.text}
                         </p>
                         {showHint && question?.hint && (
@@ -821,7 +821,7 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
                     )}
 
                     {/* Answer Buttons */}
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-2.5 md:gap-3">
                         {question?.choices.map((choice, ci) => {
                             const isSelected = selected === choice;
                             const isAnswer = String(choice) === String(question.answer);
@@ -847,7 +847,7 @@ export default function QuizGame({ operation, label, emoji, color, adSlot }: Qui
                                     id={`choice-${ci}`}
                                     onClick={() => handleAnswer(choice)}
                                     disabled={selected !== null}
-                                    className={`btn-entrance-${ci} rounded-2xl py-6 text-2xl font-black transition-all duration-200 cursor-pointer disabled:cursor-default relative overflow-hidden ${btnClass}`}
+                                    className={`btn-entrance-${ci} rounded-2xl py-4 md:py-6 text-xl md:text-2xl font-black transition-all duration-200 cursor-pointer disabled:cursor-default relative overflow-hidden ${btnClass}`}
                                     style={extraStyle}
                                 >
                                     {/* Ripple bg on correct */}
@@ -938,7 +938,7 @@ function DifficultyScreen({
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 font-sans flex flex-col items-center justify-center px-4">
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 font-sans flex flex-col items-center justify-center px-4 py-8">
             <style>{`
                 @keyframes float-emoji {
                     0%, 100% { transform: translateY(0) rotate(-3deg); }
@@ -947,14 +947,14 @@ function DifficultyScreen({
                 .emoji-float { animation: float-emoji 2.5s ease-in-out infinite; }
             `}</style>
 
-            <Link href="/practice" className="mb-8 text-indigo-300 hover:text-white text-sm transition-colors">
+            <Link href="/practice" className="mb-6 md:mb-8 text-indigo-300 hover:text-white text-sm transition-colors">
                 ← Back to Topics
             </Link>
 
-            <div className={`emoji-float w-28 h-28 rounded-3xl bg-gradient-to-br ${color} flex items-center justify-center text-6xl mb-5 shadow-2xl`}>
+            <div className={`emoji-float w-24 h-24 md:w-28 md:h-28 rounded-3xl bg-gradient-to-br ${color} flex items-center justify-center text-5xl md:text-6xl mb-4 md:mb-5 shadow-2xl`}>
                 {emoji}
             </div>
-            <h1 className="text-4xl font-black text-white mb-1">{label}</h1>
+            <h1 className="text-3xl md:text-4xl font-black text-white mb-1">{label}</h1>
             <p className="text-indigo-300 mb-3 text-sm">10 questions · timer · instant feedback</p>
 
             {bestScore !== null && (
@@ -992,7 +992,7 @@ function DifficultyScreen({
             <button
                 id="btn-start-quiz"
                 onClick={onStart}
-                className={`w-full max-w-sm py-5 rounded-2xl bg-gradient-to-r ${color} text-white text-xl font-black shadow-2xl hover:scale-105 active:scale-95 transition-transform relative overflow-hidden group`}
+                className={`w-full max-w-sm py-4 md:py-5 rounded-2xl bg-gradient-to-r ${color} text-white text-lg md:text-xl font-black shadow-2xl hover:scale-105 active:scale-95 transition-transform relative overflow-hidden group`}
             >
                 <span className="relative z-10">🚀 Start Quiz!</span>
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-200" />
@@ -1096,18 +1096,18 @@ function ResultScreen({
                 </div>
 
                 {/* Score Card */}
-                <div className={`bg-white/5 border border-white/10 rounded-3xl p-6 mb-4 stat-enter`}>
+                <div className={`bg-white/5 border border-white/10 rounded-3xl p-5 md:p-6 mb-4 stat-enter`}>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="text-center">
-                            <div className="text-5xl font-black text-yellow-400">{score}</div>
+                            <div className="text-4xl md:text-5xl font-black text-yellow-400">{score}</div>
                             <div className="text-xs text-indigo-300 mt-1">Score</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-5xl font-black text-purple-400">+{xp}</div>
+                            <div className="text-4xl md:text-5xl font-black text-purple-400">+{xp}</div>
                             <div className="text-xs text-indigo-300 mt-1">XP Earned</div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-3 text-center border-t border-white/10 pt-4">
+                    <div className="grid grid-cols-3 gap-2 md:gap-3 text-center border-t border-white/10 pt-4">
                         <div>
                             <div className="text-2xl font-bold text-green-400">{correctCount}/{TOTAL_QUESTIONS}</div>
                             <div className="text-[10px] text-indigo-300 mt-0.5">Correct</div>
@@ -1135,7 +1135,7 @@ function ResultScreen({
                         {answers.map((a, i) => (
                             <div
                                 key={i}
-                                className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-black border transition-all ${a.correct
+                                className={`w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-sm font-black border transition-all ${a.correct
                                     ? 'bg-green-400/20 text-green-400 border-green-400/30 shadow-[0_0_8px_rgba(74,222,128,0.3)]'
                                     : 'bg-red-400/20 text-red-400 border-red-400/30'
                                     }`}
@@ -1161,7 +1161,7 @@ function ResultScreen({
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
                     <p className="text-white/50 text-xs font-bold mb-3 uppercase tracking-widest">🎓 Print Certificate</p>
                     {!showCertificate ? (
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                             <input
                                 id="certificate-name"
                                 type="text"
@@ -1201,14 +1201,14 @@ function ResultScreen({
                     <button
                         id="btn-play-again"
                         onClick={onPlayAgain}
-                        className={`w-full py-4 rounded-2xl bg-gradient-to-r ${color} text-white text-lg font-black shadow-2xl hover:scale-105 active:scale-95 transition-all relative overflow-hidden group`}
+                        className={`w-full py-4 rounded-2xl bg-gradient-to-r ${color} text-white text-base md:text-lg font-black shadow-2xl hover:scale-105 active:scale-95 transition-all relative overflow-hidden group`}
                     >
                         <span>🔄 Play Again</span>
                         <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors" />
                     </button>
                     <Link
                         href="/practice"
-                        className="block w-full py-4 rounded-2xl bg-white/10 border border-white/20 text-white text-lg font-bold text-center hover:bg-white/15 hover:scale-[1.02] transition-all"
+                        className="block w-full py-4 rounded-2xl bg-white/10 border border-white/20 text-white text-base md:text-lg font-bold text-center hover:bg-white/15 hover:scale-[1.02] transition-all"
                     >
                         🎮 Choose Another Topic
                     </Link>

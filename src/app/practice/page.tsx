@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { useLevel } from './hooks/useLevel';
 import { useDailyStreak } from './hooks/useDailyStreak';
@@ -99,40 +99,41 @@ const topics = [
 ];
 
 const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+const STAR_FIELD = Array.from({ length: 60 }, () => ({
+    size: Math.random() * 2 + 1,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    opacity: Math.random() * 0.5 + 0.1,
+    animation: `star-bg ${Math.random() * 3 + 2}s ease-in-out ${Math.random() * 3}s infinite`,
+}));
 
 export default function PracticeHub() {
-    const [scores, setScores] = useState<Record<string, number>>({});
-    const [streaks, setStreaks] = useState<Record<string, number>>({});
     const { getCurrentLevel, getTotalXP, getProgress } = useLevel();
     const { getStreak, getLastNDays } = useDailyStreak();
 
-    const [level, setLevel] = useState(() => getCurrentLevel());
-    const [totalXP, setTotalXP] = useState(0);
-    const [levelPct, setLevelPct] = useState(0);
-    const [dailyStreak, setDailyStreak] = useState(0);
-    const [calendarDays, setCalendarDays] = useState<{ dateStr: string; played: boolean; isToday: boolean }[]>([]);
-
-    useEffect(() => {
+    const [scores] = useState<Record<string, number>>(() => {
         const savedScores: Record<string, number> = {};
-        const savedStreaks: Record<string, number> = {};
+        if (typeof window === 'undefined') return savedScores;
         topics.forEach((t) => {
             const s = localStorage.getItem(`bp_best_${t.id}`);
-            const k = localStorage.getItem(`mw_streak_${t.id}`);
             if (s) savedScores[t.id] = parseInt(s);
+        });
+        return savedScores;
+    });
+    const [streaks] = useState<Record<string, number>>(() => {
+        const savedStreaks: Record<string, number> = {};
+        if (typeof window === 'undefined') return savedStreaks;
+        topics.forEach((t) => {
+            const k = localStorage.getItem(`mw_streak_${t.id}`);
             if (k) savedStreaks[t.id] = parseInt(k);
         });
-        setScores(savedScores);
-        setStreaks(savedStreaks);
-
-        // Level & XP
-        setLevel(getCurrentLevel());
-        setTotalXP(getTotalXP());
-        setLevelPct(getProgress());
-
-        // Daily streak
-        setDailyStreak(getStreak());
-        setCalendarDays(getLastNDays(7));
-    }, []);
+        return savedStreaks;
+    });
+    const [level] = useState(() => getCurrentLevel());
+    const [totalXP] = useState(() => getTotalXP());
+    const [levelPct] = useState(() => getProgress());
+    const [dailyStreak] = useState(() => getStreak());
+    const [calendarDays] = useState<{ dateStr: string; played: boolean; isToday: boolean }[]>(() => getLastNDays(7));
 
     const streakMessage =
         dailyStreak >= 30 ? '🏆 Monthly Legend!' :
@@ -174,23 +175,23 @@ export default function PracticeHub() {
 
             {/* Stars background */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                {[...Array(60)].map((_, i) => (
+                {STAR_FIELD.map((star, i) => (
                     <div
                         key={i}
                         className="absolute rounded-full bg-white"
                         style={{
-                            width: Math.random() * 2 + 1,
-                            height: Math.random() * 2 + 1,
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            opacity: Math.random() * 0.5 + 0.1,
-                            animation: `star-bg ${Math.random() * 3 + 2}s ease-in-out ${Math.random() * 3}s infinite`,
+                            width: star.size,
+                            height: star.size,
+                            top: star.top,
+                            left: star.left,
+                            opacity: star.opacity,
+                            animation: star.animation,
                         }}
                     />
                 ))}
             </div>
 
-            <div className="relative z-10 max-w-6xl mx-auto px-4 pt-24 pb-16">
+            <div className="relative z-10 max-w-6xl mx-auto px-4 pt-22 md:pt-24 pb-12 md:pb-16">
 
                 {/* ─── DAILY CHEST ──────────────────────────────── */}
                 <div className="mb-4">
@@ -285,22 +286,22 @@ export default function PracticeHub() {
                 </div>
 
                 {/* ─── HEADER ─────────────────────────────────────────── */}
-                <div className="text-center mb-10">
+                <div className="text-center mb-8 md:mb-10">
                     <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-5 py-2 mb-5">
                         <span className="text-yellow-400 animate-bounce">⭐</span>
                         <span className="text-white text-sm font-medium">Interactive Math Practice</span>
                         <span className="text-yellow-400 animate-bounce" style={{ animationDelay: '0.2s' }}>⭐</span>
                     </div>
-                    <h1 className="text-5xl md:text-6xl font-black text-white mb-4 leading-tight">
+                    <h1 className="text-4xl md:text-6xl font-black text-white mb-4 leading-tight">
                         Math<span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">Play</span> 🎮
                     </h1>
-                    <p className="text-indigo-200 text-lg max-w-xl mx-auto">
+                    <p className="text-indigo-200 text-base md:text-lg max-w-xl mx-auto">
                         Answer questions, beat the timer, earn XP, and climb to Level 10!
                     </p>
                 </div>
 
                 {/* How it works strip */}
-                <div className="grid grid-cols-4 gap-3 mb-10">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
                     {[
                         { icon: '❓', label: 'Answer 10 Questions' },
                         { icon: '⏱️', label: 'Beat the Timer' },
@@ -328,7 +329,7 @@ export default function PracticeHub() {
                 </div>
 
                 {/* ─── TOPIC CARDS ────────────────────────────────────── */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-10">
                     {topics.map((topic, ti) => (
                         <Link
                             key={topic.id}

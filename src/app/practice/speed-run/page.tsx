@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import { generateQuestions, Operation, Question } from '../quiz-engine';
@@ -35,6 +35,11 @@ function ConfettiPiece({ index }: { index: number }) {
 
 export default function SpeedRunPage() {
     const [operation, setOperation] = useState<Operation>('addition');
+    const [bestTimeMs, setBestTimeMs] = useState<number | null>(() => {
+        if (typeof window === 'undefined') return null;
+        const saved = localStorage.getItem('mw_speedrun_best_addition');
+        return saved ? parseInt(saved) : null;
+    });
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState<{ correct: boolean; timeMs: number }[]>([]);
@@ -44,15 +49,15 @@ export default function SpeedRunPage() {
     const [elapsedMs, setElapsedMs] = useState(0);
     const [questionStartMs, setQuestionStartMs] = useState(0);
     const [showConfetti, setShowConfetti] = useState(false);
-    const [bestTimeMs, setBestTimeMs] = useState<number | null>(null);
 
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const startTimeRef = useRef<number>(0);
 
-    useEffect(() => {
-        const saved = localStorage.getItem(`mw_speedrun_best_${operation}`);
-        if (saved) setBestTimeMs(parseInt(saved));
-    }, [operation]);
+    const handleOperationChange = useCallback((nextOperation: Operation) => {
+        setOperation(nextOperation);
+        const saved = localStorage.getItem(`mw_speedrun_best_${nextOperation}`);
+        setBestTimeMs(saved ? parseInt(saved) : null);
+    }, []);
 
     const startGame = useCallback(() => {
         const qs = generateQuestions(operation, 'hard', TOTAL);
@@ -73,7 +78,7 @@ export default function SpeedRunPage() {
         }, 100);
     }, [operation]);
 
-    const finishGame = useCallback((finalAnswers: { correct: boolean; timeMs: number }[]) => {
+    const finishGame = useCallback(() => {
         clearInterval(timerRef.current!);
         const total = Date.now() - startTimeRef.current;
         setElapsedMs(total);
@@ -104,7 +109,7 @@ export default function SpeedRunPage() {
         setTimeout(() => {
             const next = currentIndex + 1;
             if (next >= TOTAL) {
-                finishGame(newAnswers);
+                finishGame();
             } else {
                 setCurrentIndex(next);
                 setSelected(null);
@@ -123,8 +128,8 @@ export default function SpeedRunPage() {
                 <Navbar />
                 <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 pt-20 pb-10 font-sans flex flex-col items-center justify-center px-4">
                     <Link href="/practice" className="text-indigo-300 hover:text-white text-sm mb-6 transition">← Back to Math Play</Link>
-                    <div className="text-6xl mb-3">⚡</div>
-                    <h1 className="text-4xl font-black text-white mb-2">Speed Run</h1>
+                    <div className="text-5xl md:text-6xl mb-3">⚡</div>
+                    <h1 className="text-3xl md:text-4xl font-black text-white mb-2">Speed Run</h1>
                     <p className="text-indigo-300 mb-6 text-center max-w-sm text-sm">No timer pressure — just answer as fast as you can! 10 questions. Your total time is tracked. Beat your record!</p>
 
                     {bestTimeMs && (
@@ -140,7 +145,7 @@ export default function SpeedRunPage() {
                     <p className="text-indigo-400 text-sm mb-3 font-bold uppercase tracking-widest">Choose Topic</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-sm mb-8">
                         {OPERATIONS.map(op => (
-                            <button key={op.op} id={`sr-op-${op.op}`} onClick={() => setOperation(op.op)}
+                            <button key={op.op} id={`sr-op-${op.op}`} onClick={() => handleOperationChange(op.op)}
                                 className={`flex items-center gap-3 rounded-2xl px-4 py-3 border-2 transition ${operation === op.op ? 'border-white bg-white/15 text-white' : 'border-white/20 bg-white/5 text-indigo-300 hover:border-white/40'}`}>
                                 <span className="text-2xl">{op.emoji}</span>
                                 <span className="font-bold">{op.label}</span>
@@ -150,7 +155,7 @@ export default function SpeedRunPage() {
                     </div>
 
                     <button id="btn-speedrun-start" onClick={startGame}
-                        className="w-full max-w-sm py-5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xl font-black rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-transform">
+                        className="w-full max-w-sm py-4 md:py-5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-lg md:text-xl font-black rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-transform">
                         ⚡ Start Speed Run!
                     </button>
                 </div>
@@ -173,12 +178,12 @@ export default function SpeedRunPage() {
 
                     <div className="text-center mb-6">
                         <div className="text-7xl mb-3">{isNewBest ? '🏆' : correctCount >= 8 ? '⚡' : '💪'}</div>
-                        <h1 className="text-3xl font-black text-white">{isNewBest ? 'New Record!' : 'Speed Run Done!'}</h1>
+                        <h1 className="text-2xl md:text-3xl font-black text-white">{isNewBest ? 'New Record!' : 'Speed Run Done!'}</h1>
                     </div>
 
-                    <div className="bg-white/5 border border-white/10 rounded-3xl p-6 w-full max-w-sm mb-5">
+                    <div className="bg-white/5 border border-white/10 rounded-3xl p-5 md:p-6 w-full max-w-sm mb-5">
                         <div className="text-center mb-4">
-                            <div className="text-5xl font-black text-yellow-400">{formatTime(elapsedMs)}</div>
+                            <div className="text-4xl md:text-5xl font-black text-yellow-400">{formatTime(elapsedMs)}</div>
                             <div className="text-indigo-300 text-xs">Total Time</div>
                         </div>
                         <div className="grid grid-cols-3 gap-3 text-center border-t border-white/10 pt-4">
@@ -233,10 +238,10 @@ export default function SpeedRunPage() {
                 <style>{`@keyframes slide-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.slide-up{animation:slide-up 0.3s ease forwards}`}</style>
                 <div className="max-w-xl mx-auto px-4">
                     {/* Top bar */}
-                    <div className="flex items-center justify-between pt-2 pb-3">
+                    <div className="flex items-center justify-between gap-3 pt-2 pb-3">
                         <button onClick={() => { clearInterval(timerRef.current!); setGameState('setup'); }} className="text-indigo-300 hover:text-white text-sm transition">✕ Quit</button>
                         <div className="flex items-center gap-3">
-                            <div className="bg-white/10 border border-white/10 rounded-xl px-4 py-1.5 font-mono font-bold text-yellow-400 text-lg">
+                            <div className="bg-white/10 border border-white/10 rounded-xl px-3 md:px-4 py-1.5 font-mono font-bold text-yellow-400 text-base md:text-lg">
                                 ⚡ {formatTime(elapsedMs)}
                             </div>
                             <div className="text-indigo-300 text-sm">Q{currentIndex + 1}/{TOTAL}</div>
@@ -259,9 +264,9 @@ export default function SpeedRunPage() {
 
                     {q && (
                         <div key={currentIndex} className="slide-up">
-                            <div className={`bg-white/5 border rounded-3xl p-8 text-center mb-5 ${isCorrect === true ? 'border-green-400/40 bg-green-400/5' : isCorrect === false ? 'border-red-400/40 bg-red-400/5' : 'border-white/10'}`}>
+                            <div className={`bg-white/5 border rounded-3xl p-5 md:p-8 text-center mb-5 ${isCorrect === true ? 'border-green-400/40 bg-green-400/5' : isCorrect === false ? 'border-red-400/40 bg-red-400/5' : 'border-white/10'}`}>
                                 {q.visual && <div className="text-4xl mb-3">{q.visual}</div>}
-                                <p className="text-4xl font-black text-white">{q.text}</p>
+                                <p className="text-3xl md:text-4xl font-black text-white">{q.text}</p>
                             </div>
 
                             {isCorrect !== null && (
@@ -270,7 +275,7 @@ export default function SpeedRunPage() {
                                 </div>
                             )}
 
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-2 gap-2.5 md:gap-3">
                                 {q.choices.map((choice, i) => {
                                     const isSelected = selected === choice;
                                     const isAns = String(choice) === String(q.answer);
@@ -282,7 +287,7 @@ export default function SpeedRunPage() {
                                     }
                                     return (
                                         <button key={i} id={`sr-choice-${i}`} onClick={() => handleAnswer(choice)} disabled={selected !== null}
-                                            className={`rounded-2xl py-5 text-2xl font-bold transition-all disabled:cursor-default ${cls}`}>
+                                            className={`rounded-2xl py-4 md:py-5 text-xl md:text-2xl font-bold transition-all disabled:cursor-default ${cls}`}>
                                             {choice}{selected !== null && isAns && ' ✓'}{selected !== null && isSelected && !isAns && ' ✗'}
                                         </button>
                                     );

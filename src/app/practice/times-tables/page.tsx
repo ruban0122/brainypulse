@@ -131,37 +131,37 @@ export default function TimesTableTrainer() {
                         <Link href="/practice" className="text-indigo-300 hover:text-white text-sm mb-4 inline-block transition">
                             ← Back to Math Play
                         </Link>
-                        <h1 className="text-4xl md:text-5xl font-black text-white mb-2">
+                        <h1 className="text-3xl md:text-5xl font-black text-white mb-2">
                             Times Table <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">Trainer</span> 🌟
                         </h1>
                         <p className="text-indigo-300 text-sm">Click a cell, type your answer, press Enter. Fill the whole grid!</p>
                     </div>
 
                     {/* Controls */}
-                    <div className="flex flex-wrap items-center justify-center gap-3 mb-5">
+                    <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3 mb-5">
                         {/* Mode selector */}
                         <div className="flex bg-white/10 rounded-xl p-1 gap-1">
                             {(['full', 'row', 'col'] as const).map(m => (
                                 <button key={m} onClick={() => { setMode(m); resetGrid(); }}
-                                    className={`px-4 py-1.5 rounded-lg text-sm font-bold transition ${mode === m ? 'bg-indigo-600 text-white' : 'text-indigo-300 hover:text-white'}`}>
+                                    className={`px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-bold transition ${mode === m ? 'bg-indigo-600 text-white' : 'text-indigo-300 hover:text-white'}`}>
                                     {m === 'full' ? '📊 Full Grid' : m === 'row' ? '↔ Row Only' : '↕ Column Only'}
                                 </button>
                             ))}
                         </div>
                         {mode === 'row' && (
                             <select value={selectedRow} onChange={e => { setSelectedRow(+e.target.value); resetGrid(); }}
-                                className="bg-white/10 border border-white/20 text-white rounded-xl px-3 py-2 text-sm">
+                                className="bg-white/10 border border-white/20 text-white rounded-xl px-3 py-2 text-sm w-full sm:w-auto">
                                 {Array.from({ length: 12 }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1} times table</option>)}
                             </select>
                         )}
                         {mode === 'col' && (
                             <select value={selectedCol} onChange={e => { setSelectedCol(+e.target.value); resetGrid(); }}
-                                className="bg-white/10 border border-white/20 text-white rounded-xl px-3 py-2 text-sm">
+                                className="bg-white/10 border border-white/20 text-white rounded-xl px-3 py-2 text-sm w-full sm:w-auto">
                                 {Array.from({ length: 12 }, (_, i) => <option key={i + 1} value={i + 1}>Column {i + 1}</option>)}
                             </select>
                         )}
                         <button onClick={() => setShowAnswers(s => !s)}
-                            className={`px-4 py-2 rounded-xl text-sm font-bold border transition ${showAnswers ? 'bg-yellow-500/20 border-yellow-500/50 text-yellow-300' : 'bg-white/10 border-white/20 text-indigo-300 hover:text-white'}`}>
+                            className={`px-4 py-2 rounded-xl text-sm font-bold border transition w-full sm:w-auto ${showAnswers ? 'bg-yellow-500/20 border-yellow-500/50 text-yellow-300' : 'bg-white/10 border-white/20 text-indigo-300 hover:text-white'}`}>
                             {showAnswers ? '🙈 Hide Answers' : '👁️ Show Answers'}
                         </button>
                         <button onClick={resetGrid}
@@ -210,14 +210,14 @@ export default function TimesTableTrainer() {
                     />
 
                     {/* Grid */}
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto pb-2">
                         <div className="inline-block min-w-full">
                             {/* Column headers */}
                             <div className="flex">
-                                <div className="w-10 h-8 flex-shrink-0" />
+                                <div className="w-9 md:w-10 h-8 flex-shrink-0" />
                                 {Array.from({ length: SIZE }, (_, c) => (
                                     <div key={c}
-                                        className={`flex-1 min-w-[44px] h-8 flex items-center justify-center text-xs font-black rounded-t-lg mb-0.5 ${mode === 'col' && c + 1 === selectedCol ? 'bg-indigo-600/40 text-indigo-200' : 'text-indigo-400'}`}>
+                                        className={`flex-1 min-w-[40px] md:min-w-[44px] h-8 flex items-center justify-center text-[11px] md:text-xs font-black rounded-t-lg mb-0.5 ${mode === 'col' && c + 1 === selectedCol ? 'bg-indigo-600/40 text-indigo-200' : 'text-indigo-400'}`}>
                                         ×{c + 1}
                                     </div>
                                 ))}
@@ -227,7 +227,7 @@ export default function TimesTableTrainer() {
                             {grid.map((row, r) => (
                                 <div key={r} className="flex mb-0.5">
                                     {/* Row header */}
-                                    <div className={`w-10 flex-shrink-0 flex items-center justify-center text-xs font-black rounded-l-lg mr-0.5 ${mode === 'row' && r + 1 === selectedRow ? 'bg-indigo-600/40 text-indigo-200' : 'text-indigo-400'}`}>
+                                    <div className={`w-9 md:w-10 flex-shrink-0 flex items-center justify-center text-[11px] md:text-xs font-black rounded-l-lg mr-0.5 ${mode === 'row' && r + 1 === selectedRow ? 'bg-indigo-600/40 text-indigo-200' : 'text-indigo-400'}`}>
                                         {r + 1}×
                                     </div>
                                     {/* Cells */}
@@ -238,7 +238,7 @@ export default function TimesTableTrainer() {
                                             <button
                                                 key={c}
                                                 onClick={() => handleCellClick(r, c)}
-                                                className={`tt-cell flex-1 min-w-[44px] h-10 border rounded-lg mx-0.5 text-sm font-bold flex items-center justify-center transition
+                                                className={`tt-cell flex-1 min-w-[40px] md:min-w-[44px] h-9 md:h-10 border rounded-lg mx-0.5 text-xs md:text-sm font-bold flex items-center justify-center transition
                           ${isActive ? 'active' : ''}
                           ${!inScope ? 'out-of-scope' : ''}
                           ${inScope && !isActive ? (
@@ -262,7 +262,7 @@ export default function TimesTableTrainer() {
                     </div>
 
                     {/* Instructions */}
-                    <div className="mt-6 text-center text-indigo-400/60 text-xs space-y-1">
+                    <div className="mt-6 text-center text-indigo-400/60 text-[11px] md:text-xs space-y-1">
                         <p>Click a cell → type your answer → press <kbd className="bg-white/10 px-1.5 py-0.5 rounded text-white/70">Enter</kbd> to confirm and move to next</p>
                         <p>🟢 Green = Correct &nbsp;|&nbsp; 🔴 Red = Wrong &nbsp;|&nbsp; Click again to retry</p>
                     </div>

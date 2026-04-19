@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
-import TestResult from '../components/TestResult';
+import DesktopOnlyFooter from '@/app/components/DesktopOnlyFooter';
 import AdBanner from '@/app/components/AdBanner';
 
 type Phase = 'intro' | 'waiting' | 'ready' | 'tooEarly' | 'roundResult' | 'result';
@@ -21,31 +20,9 @@ function getRatingInfo(ms: number): { label: string; color: string; emoji: strin
   return { label: 'Very Slow',             color: '#ef4444', emoji: '😴', tip: 'Try closing some tabs and focusing!' };
 }
 
-// Animated pulse rings
-function PulseRings({ color }: { color: string }) {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-      {[1, 2, 3].map((i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute',
-            width: `${120 + i * 80}px`,
-            height: `${120 + i * 80}px`,
-            borderRadius: '50%',
-            border: `2px solid ${color}`,
-            opacity: 0,
-            animation: `pulseRing 2s ease-out ${i * 0.5}s infinite`,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default function ReactionTimePage() {
   const [phase, setPhase] = useState<Phase>('intro');
-  const [round, setRound] = useState(0);
+  const [, setRound] = useState(0);
   const [times, setTimes] = useState<number[]>([]);
   const [startTime, setStartTime] = useState<number>(0);
   const [lastTime, setLastTime] = useState<number | null>(null);
@@ -139,20 +116,20 @@ export default function ReactionTimePage() {
           `}</style>
 
           {/* Result Header */}
-          <div className="max-w-2xl mx-auto px-4 py-8">
+          <div className="max-w-2xl mx-auto px-4 py-6 md:py-8">
             {/* Score Card */}
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 mb-6 text-center anim-scale-in">
-              <div className="text-6xl mb-2">{ratingInfo.emoji}</div>
-              <div className="text-7xl md:text-8xl font-black text-white mb-2 tracking-tight">
-                {avg}<span className="text-3xl font-bold text-white/60">ms</span>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-5 md:p-8 mb-6 text-center anim-scale-in">
+              <div className="text-5xl md:text-6xl mb-2">{ratingInfo.emoji}</div>
+              <div className="text-5xl sm:text-6xl md:text-8xl font-black text-white mb-2 tracking-tight">
+                {avg}<span className="text-2xl md:text-3xl font-bold text-white/60">ms</span>
               </div>
               <div
-                className="inline-block text-xl font-black px-6 py-2 rounded-full mb-3"
+                className="inline-block text-base md:text-xl font-black px-4 md:px-6 py-2 rounded-full mb-3"
                 style={{ backgroundColor: ratingInfo.color + '22', color: ratingInfo.color, border: `2px solid ${ratingInfo.color}40` }}
               >
                 {ratingInfo.label}
               </div>
-              <p className="text-white/70 text-base">{ratingInfo.tip}</p>
+              <p className="text-white/70 text-sm md:text-base">{ratingInfo.tip}</p>
             </div>
 
             {/* Round Breakdown */}
@@ -205,17 +182,17 @@ export default function ReactionTimePage() {
             </div>
 
             {/* Sharing / CTA */}
-            <div className="grid grid-cols-2 gap-3 mb-6 anim-fade-up" style={{ animationDelay: '0.2s', opacity: 0 }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 anim-fade-up" style={{ animationDelay: '0.2s', opacity: 0 }}>
               <button
                 onClick={reset}
                 id="result-play-again"
-                className="py-4 rounded-2xl font-black text-lg bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:opacity-90 hover:scale-105 transition-all shadow-lg shadow-orange-500/20"
+                className="py-4 rounded-2xl font-black text-base md:text-lg bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:opacity-90 hover:scale-105 transition-all shadow-lg shadow-orange-500/20"
               >
                 🔁 Try Again
               </button>
               <a
                 href="/tests"
-                className="py-4 rounded-2xl font-black text-lg text-center bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all"
+                className="py-4 rounded-2xl font-black text-base md:text-lg text-center bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all"
               >
                 🧠 All Tests
               </a>
@@ -253,7 +230,7 @@ export default function ReactionTimePage() {
             </div>
           </div>
         </div>
-        <Footer />
+        <DesktopOnlyFooter />
       </>
     );
   }
@@ -297,7 +274,7 @@ export default function ReactionTimePage() {
       <Navbar />
 
       <div
-        className={`min-h-screen bg-gradient-to-br ${bgConfig.bg} flex flex-col items-center justify-center cursor-pointer select-none pt-16 transition-all duration-150 relative overflow-hidden`}
+        className={`min-h-screen bg-gradient-to-br ${bgConfig.bg} flex flex-col items-center justify-center cursor-pointer select-none pt-16 transition-all duration-150 relative overflow-hidden px-4`}
         onClick={handleClick}
         role="button"
         aria-label="Click to react"
@@ -341,21 +318,21 @@ export default function ReactionTimePage() {
         )}
 
         {/* Main content */}
-        <div className="text-center px-6 max-w-md w-full z-10">
+          <div className="text-center px-2 sm:px-6 max-w-md w-full z-10">
 
           {/* INTRO */}
           {isIntro && (
             <div>
               <div className="text-6xl mb-4 filter drop-shadow-2xl">⚡</div>
-              <h1 className="text-4xl md:text-5xl font-black text-white mb-3 leading-tight">
+                <h1 className="text-3xl md:text-5xl font-black text-white mb-3 leading-tight">
                 Reaction Time<br />
                 <span style={{ color: '#fbbf24' }}>Test</span>
               </h1>
-              <p className="text-white/60 text-base mb-8 max-w-xs mx-auto">
+                <p className="text-white/60 text-sm md:text-base mb-6 md:mb-8 max-w-xs mx-auto">
                 Click when the screen turns <span className="text-emerald-400 font-bold">GREEN</span>. 
                 5 rounds · fastest average wins
               </p>
-              <div className="grid grid-cols-3 gap-3 mb-8">
+                <div className="grid grid-cols-3 gap-2 md:gap-3 mb-6 md:mb-8">
                 {[
                   { icon: '🎯', text: '5 Rounds' },
                   { icon: '⚡', text: 'Wait for green' },
@@ -369,7 +346,7 @@ export default function ReactionTimePage() {
               </div>
               <button
                 id="start-reaction-test"
-                className="btn-bounce bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-black text-xl px-12 py-5 rounded-2xl shadow-2xl shadow-orange-500/30"
+                className="btn-bounce w-full sm:w-auto bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-black text-lg md:text-xl px-8 md:px-12 py-4 md:py-5 rounded-2xl shadow-2xl shadow-orange-500/30"
               >
                 Tap to Start ⚡
               </button>
@@ -386,14 +363,14 @@ export default function ReactionTimePage() {
           {/* WAITING */}
           {isWaiting && (
             <div>
-              <div className="relative w-32 h-32 mx-auto mb-6 flex items-center justify-center">
+                <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-5 md:mb-6 flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full bg-white/5 animate-ping" style={{ animationDuration: '1.5s' }} />
-                <div className="w-20 h-20 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center">
                   <div className="text-3xl">⏳</div>
                 </div>
               </div>
-              <div className="text-3xl font-black text-white mb-2">Wait for it...</div>
-              <p className="text-white/50 text-base mb-6">Don't click yet!</p>
+                <div className="text-2xl md:text-3xl font-black text-white mb-2">Wait for it...</div>
+              <p className="text-white/50 text-base mb-6">Don&apos;t click yet!</p>
 
               {/* Wait time meter - builds suspense */}
               <div className="w-48 mx-auto h-1.5 bg-white/10 rounded-full overflow-hidden mb-8">
@@ -418,7 +395,7 @@ export default function ReactionTimePage() {
           {/* READY */}
           {isReady && (
             <div className="anim-flash">
-              <div className="text-6xl md:text-8xl font-black text-white mb-3 drop-shadow-2xl leading-none">
+              <div className="text-5xl md:text-8xl font-black text-white mb-3 drop-shadow-2xl leading-none">
                 CLICK!
               </div>
               <p className="text-emerald-300/80 text-lg font-bold">NOW! NOW! NOW!</p>
@@ -429,7 +406,7 @@ export default function ReactionTimePage() {
           {isTooEarly && (
             <div>
               <div className="text-5xl mb-3">❌</div>
-              <div className="text-3xl font-black text-white mb-2">Too Early!</div>
+              <div className="text-2xl md:text-3xl font-black text-white mb-2">Too Early!</div>
               <p className="text-red-300/80 text-base mb-6">Wait for the green screen before clicking.</p>
               <div className="bg-white/10 border border-white/20 rounded-2xl px-6 py-3 inline-block">
                 <span className="text-white/60 text-sm">Tap to retry this round</span>
@@ -441,8 +418,8 @@ export default function ReactionTimePage() {
           {isRoundResult && lastTime !== null && lastRating && (
             <div>
               <div className="text-2xl font-black text-white/50 mb-1">Round {times.length}</div>
-              <div className="text-7xl md:text-8xl font-black text-white mb-1 leading-none">
-                {lastTime}<span className="text-3xl font-bold text-white/50">ms</span>
+              <div className="text-5xl sm:text-6xl md:text-8xl font-black text-white mb-1 leading-none">
+                {lastTime}<span className="text-2xl md:text-3xl font-bold text-white/50">ms</span>
               </div>
               <div
                 className="inline-block text-base font-black px-5 py-2 rounded-full mb-5"
@@ -490,7 +467,7 @@ export default function ReactionTimePage() {
         )}
       </div>
 
-      <Footer />
+      <DesktopOnlyFooter />
     </>
   );
 }

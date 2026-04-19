@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
+import DesktopOnlyFooter from '@/app/components/DesktopOnlyFooter';
 import TestResult from '../components/TestResult';
 
 type Phase = 'intro' | 'playing' | 'result';
@@ -94,7 +94,7 @@ export default function MathSpeedPage() {
           scoreSubtitle={`${wrong} wrong · Accuracy: ${correct + wrong > 0 ? Math.round((correct / (correct + wrong)) * 100) : 100}%`}
           onPlayAgain={() => setPhase('intro')}
         />
-        <Footer />
+        <DesktopOnlyFooter />
       </>
     );
   }
@@ -171,7 +171,7 @@ export default function MathSpeedPage() {
           </div>
         )}
       </div>
-      <Footer />
+      <DesktopOnlyFooter />
     </>
   );
 }
