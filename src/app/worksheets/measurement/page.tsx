@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, RotateCw, Printer } from 'lucide-react';
 import Link from 'next/link';
+import PdfDownloadButton from '../components/PdfDownloadButton';
 
 type Difficulty = 'easy' | 'medium';
 
@@ -108,16 +109,17 @@ export default function MeasurementWorksheet() {
                             type="checkbox"
                             checked={showAnswers}
                             onChange={(e) => setShowAnswers(e.target.checked)}
-                            className="w-4 h-4 text-rose-600 rounded"
+                            className="w-4 h-4 text-rose-600 rounded show-answers-checkbox"
                         />
                         <span className="text-sm font-medium text-rose-700">Answers</span>
                     </label>
                     <button
                         onClick={() => setWorksheetId(prev => prev + 1)}
-                        className="bg-rose-600 text-white px-3 py-1.5 rounded text-sm hover:bg-rose-700 flex items-center gap-1"
+                        className="bg-rose-600 text-white px-3 py-1.5 rounded text-sm hover:bg-rose-700 flex items-center gap-1 new-worksheet-btn"
                     >
                         <RotateCw size={14} /> New
                     </button>
+                    <PdfDownloadButton />
                     <button
                         onClick={() => window.print()}
                         className="bg-gray-800 text-white px-3 py-1.5 rounded text-sm hover:bg-black flex items-center gap-1"

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, RotateCw, Printer, Edit2 } from 'lucide-react';
 import Link from 'next/link';
+import PdfDownloadButton from '../components/PdfDownloadButton';
 
 export default function TracingWorksheet() {
     const [worksheetId, setWorksheetId] = useState(1);
@@ -108,6 +109,7 @@ export default function TracingWorksheet() {
                 </div>
 
                 <div className="flex gap-4 items-center">
+                    <PdfDownloadButton />
                     <button
                         onClick={() => window.print()}
                         className="flex items-center gap-2 px-3 py-1.5 bg-gray-800 text-white rounded hover:bg-black transition shadow-sm text-sm"

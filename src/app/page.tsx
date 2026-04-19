@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AdBanner from './components/AdBanner';
+import { BLOG_POSTS } from '@/lib/blog';
 
 // ── Animated counter hook ─────────────────────────────────────────────────────
 function useCounter(target: number, duration = 1800) {
@@ -563,6 +564,46 @@ export default function DiscoveryHub() {
         </section>
 
         {/* ═══════════════ FINAL CTA ═══════════════ */}
+        <section className="py-16 md:py-20 bg-white">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
+              <div>
+                <div className="inline-block bg-indigo-100 text-indigo-700 text-xs font-bold px-4 py-2 rounded-full mb-3 uppercase tracking-widest">
+                  Helpful Guides
+                </div>
+                <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-2">
+                  Learn What the Scores Mean
+                </h2>
+                <p className="text-gray-600 text-lg">
+                  Quick articles that explain the tests, worksheets, and practice routines behind BrainyPulse.
+                </p>
+              </div>
+              <Link href="/blog" className="inline-flex items-center gap-2 text-indigo-600 font-bold hover:text-indigo-800 transition-colors">
+                Visit the blog →
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {BLOG_POSTS.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group rounded-3xl border border-gray-200 bg-slate-50 p-6 card-hover block"
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-bold text-indigo-700 border border-indigo-100 mb-4">
+                    {post.category}
+                  </div>
+                  <h3 className="text-2xl font-black text-gray-900 mb-3">{post.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4">{post.excerpt}</p>
+                  <div className="text-sm font-bold text-indigo-600 group-hover:text-indigo-800 transition-colors">
+                    Read guide →
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="py-20 md:py-28 bg-gradient-to-br from-indigo-700 via-purple-700 to-indigo-800 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />

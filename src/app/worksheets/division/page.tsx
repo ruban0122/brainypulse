@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { ArrowLeft, RotateCw, Printer } from 'lucide-react';
+import PdfDownloadButton from '../components/PdfDownloadButton';
 
 interface DivProblem {
     id: string;
@@ -76,13 +77,14 @@ export default function DivisionWorksheet() {
                             type="checkbox"
                             checked={showAnswers}
                             onChange={(e) => setShowAnswers(e.target.checked)}
-                            className="w-4 h-4 accent-orange-600"
+                            className="w-4 h-4 accent-orange-600 show-answers-checkbox"
                         />
                         <span className="text-sm font-medium">Show Answers</span>
                     </label>
-                    <button onClick={() => setWorksheetId(prev => prev + 1)} className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition shadow-sm">
+                    <button onClick={() => setWorksheetId(prev => prev + 1)} className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition shadow-sm new-worksheet-btn">
                         <RotateCw size={16} /> New
                     </button>
+                    <PdfDownloadButton />
                     <button onClick={() => window.print()} className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded hover:bg-black transition shadow-sm">
                         <Printer size={16} /> Print
                     </button>

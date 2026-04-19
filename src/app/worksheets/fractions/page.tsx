@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, RotateCw, Printer, PieChart } from 'lucide-react';
 import Link from 'next/link';
+import PdfDownloadButton from '../components/PdfDownloadButton';
 
 interface FractionProblem {
     id: string;
@@ -115,16 +116,17 @@ export default function FractionsWorksheet() {
                             type="checkbox"
                             checked={showAnswers}
                             onChange={(e) => setShowAnswers(e.target.checked)}
-                            className="w-4 h-4 text-red-600 focus:ring-red-500 border-gray-300 rounded accent-red-600"
+                            className="w-4 h-4 text-red-600 focus:ring-red-500 border-gray-300 rounded accent-red-600 show-answers-checkbox"
                         />
                         <span className="text-sm font-medium text-gray-700">Show Answers</span>
                     </label>
                     <button
                         onClick={() => setWorksheetId(prev => prev + 1)}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700 transition shadow-sm text-sm"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700 transition shadow-sm text-sm new-worksheet-btn"
                     >
                         <RotateCw size={14} /> New
                     </button>
+                    <PdfDownloadButton />
                     <button
                         onClick={() => window.print()}
                         className="flex items-center gap-2 px-3 py-1.5 bg-gray-800 text-white rounded hover:bg-black transition shadow-sm text-sm"

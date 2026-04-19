@@ -7,6 +7,7 @@ import {
     IceCream, RotateCw, Printer, ArrowLeft
 } from 'lucide-react';
 import Link from 'next/link';
+import PdfDownloadButton from '../components/PdfDownloadButton';
 
 // Math problem interface
 interface MathProblem {
@@ -109,16 +110,17 @@ export default function AdditionWorksheet() {
                             type="checkbox"
                             checked={showAnswers}
                             onChange={(e) => setShowAnswers(e.target.checked)}
-                            className="w-4 h-4"
+                            className="w-4 h-4 show-answers-checkbox"
                         />
                         <span className="text-sm font-medium">Show Answers</span>
                     </label>
                     <button
                         onClick={() => setWorksheetId(prev => prev + 1)}
-                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow-sm"
+                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow-sm new-worksheet-btn"
                     >
                         <RotateCw size={16} /> New Worksheet
                     </button>
+                    <PdfDownloadButton />
                     <button
                         onClick={() => window.print()}
                         className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded hover:bg-black transition shadow-sm"
